@@ -4,6 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>S:\UnityCustomDLL\SmalBaseDevKit\SmallBaseDevKit\SmallBaseDevKit\SmallBaseDevKit.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="UnityEditor">
       <HintPath>..\..\..\..\2019.4.16f1\Editor\Data\Managed\UnityEditor.dll</HintPath>

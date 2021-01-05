@@ -67,15 +67,22 @@ namespace SmallBaseDevKit.Pool.Specification
         {
             _Debug.Log("Debug table pool by specific!", DebugColor.blue);
             _Debug.Log($"Pool type - {typeof(T).Name}", DebugColor.green);
-            _Debug.Log($"Objects count = {_poolTable.Count}");
+            int listCount = 0;
+            int count = 0;
             foreach(var list in _poolTable)
             {
                 _Debug.Log($"List uniq key = {list.Key}");
+                listCount++;
                 for(int i = 0; i < list.Value.Count; ++i)
                 {
                     _Debug.Log(list.Value[i].ToString());
+                    count++;
                 }
             }
+            _Debug.Log("Total:", DebugColor.blue);
+            _Debug.Log($"Total list count = {listCount}", DebugColor.green);
+            _Debug.Log($"Total objects count = {count}", DebugColor.green);
+
         }
         /// <summary>
         /// Метод по обработке прототипа и получения уникального ключа для хранения объектов. 

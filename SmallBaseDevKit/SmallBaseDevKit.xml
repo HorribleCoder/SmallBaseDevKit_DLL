@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmallBaseDevKit</name>
+    </assembly>
+    <members>
+        <member name="T:SmallBaseDevKit.Factory.ClassObjectFactory`1">
+            <summary>
+            Спецификация фабрики по созданию объектов типа C# класса.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Factory.IFactory`1">
+            <summary>
+            Интерфейс реализации фабрики объектов.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.Factory.IFactory`1.CreateObject(System.Object)">
+            <summary>
+            Метод создания объекта по его прототипу.
+            </summary>
+            <param name="prototype">Прототип объекта.</param>
+            <returns>Объект релизации прототипа.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.Factory.UnityObjectFactory`1">
+            <summary>
+            Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.IPool`1">
+            <summary>
+            Интерфейс игрового пула.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.IPool`1.GetObject(System.Object)">
+            <summary>
+            Получаем объект из пула. Объект удаляется из пула.
+            </summary>
+            <param name="objectPrototype">Прототип объекта.</param>
+            <returns>Объект пула.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.IPool`1.ReturnObject(`0)">
+            <summary>
+            Возвращения объекта в пул. 
+            </summary>
+            <param name="poolObject">Текущий объект.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.IPool`1.PoolDebugView">
+            <summary>
+            Метод проверки наполенения пулла для дебага.
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.LinePool`1">
+            <summary>
+            Пул-список для многоразовых объектов в единичном экзепляре.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1">
+            <summary>
+            Абстрактная релизация спецификации игровго пула.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="F:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.factory">
+            <summary>
+            Ссылка на фабрику для создания объектов согласно специфики.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.CheckInputPrototypeData(System.Object)">
+            <summary>
+            Проверка входных данных на тип данных в пулле.
+            </summary>
+            <param name="objectPrototype">Входящий прототип.</param>
+            <returns>Продолжаем работу с входящим прототипом.</returns>
+            <exception cref="!:Формируем ошбику если входной протип не совпадает с хранящимся типом данных в пуле."></exception>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.ExceptionAction(System.Exception,System.Object)">
+            <summary>
+            Обработка ошибки в пулле через - 
+            <see cref="T:SmallBaseDevKit.GameException.ExceptionHandler"/>
+            </summary>
+            <param name="e">Ошибка.</param>
+            <param name="objectPrototype">Входящий прототип.</param>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.BaseLinePoolSpecification`1">
+            <summary>
+            Абстрактная спецификация для пула-списка.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.LineByName`1">
+            <summary>
+            Спецификация пула-списка по хранению объектов по имени.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.BaseTablePoolSpecification`2">
+            <summary>
+            Абстракция по специкации пула-таблицы.
+            </summary>
+            <typeparam name="K">Уникальный ключ согласно спецификации.</typeparam>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.Specification.BaseTablePoolSpecification`2.GetPrototypeKey(System.Object)">
+            <summary>
+            Метод по обработке прототипа и получения уникального ключа для хранения объектов. 
+            </summary>
+            <param name="prototypeObject">Протип объекта.</param>
+            <returns>Уникальный ключ согласно спецификации.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.TableByName`1">
+            <summary>
+            Спецификация пулла, где ключем является имя объекта.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.Specification.TableByType`1">
+            <summary>
+            Спецификация пулла где ключем является Type объекта.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Pool.TablePool`1">
+            <summary>
+            Пул-таблица для хранения большого числа объектов.
+            </summary>
+            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.GameException.EditorGameException">
+            <summary>
+            Релизация обработки ошибки по умолчанию - <see cref="N:UnityEditor"/>.
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.GameException.ExceptionHandler">
+            <summary>
+            Обработчик ошибки в игре.
+            </summary>
+        </member>
+        <member name="F:SmallBaseDevKit.GameException.ExceptionHandler.ExceptionEvent">
+            <summary>
+            Эвент по обработке ошибки взависимости от платформы, по умолчанию - <see cref="T:SmallBaseDevKit.GameException.EditorGameException"/>.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.GameException.ExceptionHandler.ExceptionProcessExecute(System.Exception,System.String)">
+            <summary>
+            Метод обработки ошибки.
+            </summary>
+            <param name="e">Ошибка.</param>
+            <param name="msg">Дополнительное сообщение..</param>
+        </member>
+        <member name="T:SmallBaseDevKit.GameException.IGameException">
+            <summary>
+            Интерфейс релизации обработки ошибки в зависимости от платформы.
+            </summary>
+        </member>
+        <member name="T:DebugColor">
+            <summary>
+            Тип цвета для сообщения.
+            </summary>
+        </member>
+        <member name="T:_Debug">
+            <summary>
+            Класс по релизации вывод сообщений с использованеим цвета.
+            </summary>
+        </member>
+        <member name="M:_Debug.Log(System.Object,DebugColor)">
+            <summary>
+            Метод вывода сообщения в консоль.
+            </summary>
+            <param name="message">Объект сообщения.</param>
+            <param name="color">Цвет сообщения.</param>
+        </member>
+    </members>
+</doc>
