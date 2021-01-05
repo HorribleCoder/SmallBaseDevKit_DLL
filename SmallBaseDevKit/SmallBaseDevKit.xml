@@ -4,17 +4,75 @@
         <name>SmallBaseDevKit</name>
     </assembly>
     <members>
+        <member name="T:SmallBaseDevKit.Core.GameInstance">
+            <summary>
+            Класс-инициализатор в котором хранятся все необходимые игровые модули.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.Core.GameInstance.GetGameModule``1">
+            <summary>
+            Метод получения конктреного модуля.
+            </summary>
+            <typeparam name="T">Тип моудля.</typeparam>
+            <returns>Объект модуля.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.Core.MonoSingleton`1">
+            <summary>
+            Класс одиночка для игровых объектов.
+            </summary>
+            <typeparam name="T">Наследник <see cref="T:UnityEngine.MonoBehaviour"/></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.GameModule.BaseGameModule">
+            <summary>
+            Базовый класс для всех игровых модулей. Обращение к реализации модуля через 
+            <see cref="T:SmallBaseDevKit.Core.GameInstance"/>.
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.GameModule.GlobalEventModule">
+            <summary>
+            Класс с реализацией глобального обмена сообщения в игре.
+            Реализовано через <see cref="T:System.EventHandler"/>
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.GameModule.GlobalEventModule.AddEvent(System.Type,System.EventHandler)">
+            <summary>
+            Добавление слушателя в модуль обмена сообщениями.
+            </summary>
+            <param name="eventKey">Уникальный ключ события, равен типу релизации <see cref="T:System.EventArgs"/></param>
+            <param name="eventHandler">Метод обрабоки события.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.GameModule.GlobalEventModule.ExecuteEvent(System.EventArgs,System.Object)">
+            <summary>
+            Обработка и выполнение события у всех слушателей.
+            </summary>
+            <param name="eventArgs">Данные события.</param>
+            <param name="sender">Источник события.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.GameModule.GlobalEventModule.RemoveEvent(System.Type,System.EventHandler)">
+            <summary>
+            Удаление слушателя в модуле обмена сообщениями.
+            </summary>
+            <param name="eventKey">Уникальный ключ события, равен типу релизации <see cref="T:System.EventArgs"/></param>
+            <param name="eventHandler">Метод обработки события.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.GameModule.GlobalEventModule.GetEventArgByType``1">
+            <summary>
+            Получаем из пула шаблон данных сообщения.
+            </summary>
+            <typeparam name="T">Тип сообщения.</typeparam>
+            <returns></returns>
+        </member>
         <member name="T:SmallBaseDevKit.Factory.ClassObjectFactory`1">
             <summary>
             Спецификация фабрики по созданию объектов типа C# класса.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.Factory.IFactory`1">
             <summary>
             Интерфейс реализации фабрики объектов.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="M:SmallBaseDevKit.Factory.IFactory`1.CreateObject(System.Object)">
             <summary>
@@ -27,13 +85,13 @@
             <summary>
             Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.Pool.IPool`1">
             <summary>
             Интерфейс игрового пула.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="M:SmallBaseDevKit.Pool.IPool`1.GetObject(System.Object)">
             <summary>
@@ -57,13 +115,13 @@
             <summary>
             Пул-список для многоразовых объектов в единичном экзепляре.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1">
             <summary>
             Абстрактная релизация спецификации игровго пула.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="F:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.factory">
             <summary>
@@ -76,7 +134,7 @@
             </summary>
             <param name="objectPrototype">Входящий прототип.</param>
             <returns>Продолжаем работу с входящим прототипом.</returns>
-            <exception cref="!:Формируем ошбику если входной протип не совпадает с хранящимся типом данных в пуле."></exception>
+            <exception cref="T:System.Exception"></exception>
         </member>
         <member name="M:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.ExceptionAction(System.Exception,System.Object)">
             <summary>
@@ -90,7 +148,7 @@
             <summary>
             Абстрактная спецификация для пула-списка.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.Pool.Specification.LineByName`1">
             <summary>
@@ -103,7 +161,7 @@
             Абстракция по специкации пула-таблицы.
             </summary>
             <typeparam name="K">Уникальный ключ согласно спецификации.</typeparam>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="M:SmallBaseDevKit.Pool.Specification.BaseTablePoolSpecification`2.GetPrototypeKey(System.Object)">
             <summary>
@@ -128,7 +186,7 @@
             <summary>
             Пул-таблица для хранения большого числа объектов.
             </summary>
-            <typeparam name="T">Тип объекта, формат - <see cref="!:class"/></typeparam>
+            <typeparam name="T">Тип объекта./></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.GameException.EditorGameException">
             <summary>
@@ -156,6 +214,13 @@
             <summary>
             Интерфейс релизации обработки ошибки в зависимости от платформы.
             </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.GameException.IGameException.ExceptionProcessExecute(System.Exception,System.String)">
+            <summary>
+            Метод обработки игровой ошибки с учетом спецификации.
+            </summary>
+            <param name="e">Ошибка.</param>
+            <param name="msg">Дополнительное сообщение.</param>
         </member>
         <member name="T:DebugColor">
             <summary>

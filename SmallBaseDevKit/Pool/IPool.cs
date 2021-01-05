@@ -3,7 +3,7 @@
     /// <summary>
     /// Интерфейс игрового пула.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     public interface IPool<T>
         where T : class
     {

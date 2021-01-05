@@ -5,7 +5,7 @@ namespace SmallBaseDevKit.Pool
     /// <summary>
     /// Пул-список для многоразовых объектов в единичном экзепляре.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     public sealed class LinePool<T> : IPool<T>
         where T : class
     {

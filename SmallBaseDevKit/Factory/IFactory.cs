@@ -3,7 +3,7 @@
     /// <summary>
     /// Интерфейс реализации фабрики объектов.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal interface IFactory<T>
         where T : class
     {

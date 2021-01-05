@@ -5,7 +5,7 @@ namespace SmallBaseDevKit.Factory
     /// <summary>
     /// Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal sealed class UnityObjectFactory<T> : IFactory<T>
         where T : class
     {

@@ -8,7 +8,7 @@ namespace SmallBaseDevKit.Pool.Specification
     /// Абстракция по специкации пула-таблицы.
     /// </summary>
     /// <typeparam name="K">Уникальный ключ согласно спецификации.</typeparam>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal abstract class BaseTablePoolSpecification<K, T> : BasePoolSpecification<T>, IPool<T>
         where T : class
     {
@@ -29,7 +29,6 @@ namespace SmallBaseDevKit.Pool.Specification
                     throw new Exception();
                 }
 
-                _Debug.Log($"table get key - {GetPrototypeKey(objectPrototype)}");
                 if (!_poolTable.TryGetValue(GetPrototypeKey(objectPrototype), out var currentList))
                 {
                     currentList = new List<T>();

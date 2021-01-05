@@ -7,6 +7,11 @@ namespace SmallBaseDevKit.GameException
     /// </summary>
     public interface IGameException
     {
+        /// <summary>
+        /// Метод обработки игровой ошибки с учетом спецификации.
+        /// </summary>
+        /// <param name="e">Ошибка.</param>
+        /// <param name="msg">Дополнительное сообщение.</param>
         void ExceptionProcessExecute(Exception e, string msg = null);
     }
 }

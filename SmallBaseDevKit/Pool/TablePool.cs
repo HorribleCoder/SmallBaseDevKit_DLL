@@ -5,7 +5,7 @@ namespace SmallBaseDevKit.Pool
     /// <summary>
     /// Пул-таблица для хранения большого числа объектов.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     public sealed class TablePool<T> : IPool<T>
         where T : class
     {
@@ -22,7 +22,7 @@ namespace SmallBaseDevKit.Pool
                 _poolSpecification = new TableByType<T>();
             }
         }
-
+        
         public T GetObject(object objectPrototype)
         {
             return _poolSpecification.GetObject(objectPrototype);

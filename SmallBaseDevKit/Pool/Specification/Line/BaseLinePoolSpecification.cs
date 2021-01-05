@@ -6,7 +6,7 @@ namespace SmallBaseDevKit.Pool.Specification
     /// <summary>
     /// Абстрактная спецификация для пула-списка.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal abstract class BaseLinePoolSpecification<T> : BasePoolSpecification<T>, IPool<T>
         where T : class
     {

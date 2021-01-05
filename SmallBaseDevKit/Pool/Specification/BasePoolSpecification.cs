@@ -8,7 +8,7 @@ namespace SmallBaseDevKit.Pool.Specification
     /// <summary>
     /// Абстрактная релизация спецификации игровго пула.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal abstract class BasePoolSpecification<T>
         where T : class
     {
@@ -32,7 +32,7 @@ namespace SmallBaseDevKit.Pool.Specification
         /// </summary>
         /// <param name="objectPrototype">Входящий прототип.</param>
         /// <returns>Продолжаем работу с входящим прототипом.</returns>
-        /// <exception cref="Формируем ошбику если входной протип не совпадает с хранящимся типом данных в пуле."></exception>
+        /// <exception cref="Exception"></exception>
         protected internal abstract bool CheckInputPrototypeData(object objectPrototype);
         /// <summary>
         /// Обработка ошибки в пулле через - 

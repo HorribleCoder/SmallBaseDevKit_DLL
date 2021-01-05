@@ -5,7 +5,7 @@ namespace SmallBaseDevKit.Factory
     /// <summary>
     /// Спецификация фабрики по созданию объектов типа C# класса.
     /// </summary>
-    /// <typeparam name="T">Тип объекта, формат - <see cref="class"/></typeparam>
+    /// <typeparam name="T">Тип объекта./></typeparam>
     internal sealed class ClassObjectFactory<T> : IFactory<T>
         where T : class
     {
