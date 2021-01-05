@@ -45,6 +45,17 @@ namespace SmallBaseDevKit.Pool.Specification
             }
         }
 
+        public void PoolDebugView()
+        {
+            _Debug.Log("Debug line pool by specific!", DebugColor.blue);
+            _Debug.Log($"Pool type - {typeof(T).Name}", DebugColor.green);
+            _Debug.Log($"Objects count = {poolList.Count}");
+            for(int i = 0; i < poolList.Count; ++i)
+            {
+                _Debug.Log(poolList[i].ToString());
+            }
+        }
+
         protected internal abstract bool TryGetObjectInPool(object objectPrototype, out T poolObject);
 
         protected internal abstract bool FindObjectInPool(T searchObject);

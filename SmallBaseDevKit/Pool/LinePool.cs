@@ -22,13 +22,20 @@ namespace SmallBaseDevKit.Pool
                 _poolSpecification = new LineByType<T>();
             }
         }
+
         public T GetObject(object objectPrototype)
         {
             return _poolSpecification.GetObject(objectPrototype);
         }
+
         public void ReturnObject(T poolObject)
         {
             _poolSpecification.ReturnObject(poolObject);
+        }
+
+        public void PoolDebugView()
+        {
+            _poolSpecification.PoolDebugView();
         }
     }
 }

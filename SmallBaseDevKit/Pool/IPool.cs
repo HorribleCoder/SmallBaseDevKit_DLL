@@ -18,5 +18,10 @@
         /// </summary>
         /// <param name="poolObject">Текущий объект.</param>
         void ReturnObject(T poolObject);
+
+        /// <summary>
+        /// Метод проверки наполенения пулла для дебага.
+        /// </summary>
+        void PoolDebugView();
     }
 }

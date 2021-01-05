@@ -32,5 +32,9 @@ namespace SmallBaseDevKit.Pool
         {
             _poolSpecification.ReturnObject(poolObject);
         }
+        public void PoolDebugView()
+        {
+            _poolSpecification.PoolDebugView();
+        }
     }
 }

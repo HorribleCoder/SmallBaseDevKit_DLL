@@ -1,5 +1,9 @@
 ﻿namespace SmallBaseDevKit.Pool.Specification
 {
+    /// <summary>
+    /// Спецификация пулла, где ключем является имя объекта.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal sealed class TableByName<T> : BaseTablePoolSpecification<string, T>
         where T : class
     {

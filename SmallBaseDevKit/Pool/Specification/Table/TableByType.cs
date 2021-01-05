@@ -2,12 +2,15 @@
 
 namespace SmallBaseDevKit.Pool.Specification
 {
+    /// <summary>
+    /// Спецификация пулла где ключем является Type объекта.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal sealed class TableByType<T> : BaseTablePoolSpecification<Type, T>
         where T : class
     {
         protected internal override bool CheckInputPrototypeData(object objectPrototype)
         {
-            _Debug.Log($"table check - {objectPrototype}");
             if (objectPrototype is null)
             {
                 return false;
