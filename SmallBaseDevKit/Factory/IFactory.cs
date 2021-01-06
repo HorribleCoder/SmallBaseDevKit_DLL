@@ -3,15 +3,14 @@
     /// <summary>
     /// Интерфейс реализации фабрики объектов.
     /// </summary>
-    /// <typeparam name="T">Тип объекта./></typeparam>
-    internal interface IFactory<T>
-        where T : class
+    internal interface IFactory
     {
         /// <summary>
-        /// Метод создания объекта по его прототипу.
+        /// Метод создания объекта согласно его типу.
         /// </summary>
+        /// <typeparam name="T">Тип объекта</typeparam>
         /// <param name="prototype">Прототип объекта.</param>
-        /// <returns>Объект релизации прототипа.</returns>
-        T CreateObject(object prototype);
+        /// <returns>Копия объекта.</returns>
+        T CreateNewObject<T>(object prototype) where T : class;
     }
 }

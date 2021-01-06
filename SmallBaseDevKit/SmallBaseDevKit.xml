@@ -4,30 +4,18 @@
         <name>SmallBaseDevKit</name>
     </assembly>
     <members>
-        <member name="T:SmallBaseDevKit.Factory.ClassObjectFactory`1">
-            <summary>
-            Спецификация фабрики по созданию объектов типа C# класса.
-            </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
-        </member>
-        <member name="T:SmallBaseDevKit.Factory.IFactory`1">
+        <member name="T:SmallBaseDevKit.Factory.IFactory">
             <summary>
             Интерфейс реализации фабрики объектов.
             </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
         </member>
-        <member name="M:SmallBaseDevKit.Factory.IFactory`1.CreateObject(System.Object)">
+        <member name="M:SmallBaseDevKit.Factory.IFactory.CreateNewObject``1(System.Object)">
             <summary>
-            Метод создания объекта по его прототипу.
+            Метод создания объекта согласно его типу.
             </summary>
+            <typeparam name="T">Тип объекта</typeparam>
             <param name="prototype">Прототип объекта.</param>
-            <returns>Объект релизации прототипа.</returns>
-        </member>
-        <member name="T:SmallBaseDevKit.Factory.UnityObjectFactory`1">
-            <summary>
-            Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
-            </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
+            <returns>Копия объекта.</returns>
         </member>
         <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
@@ -122,11 +110,6 @@
             Абстрактная релизация спецификации игровго пула.
             </summary>
             <typeparam name="T">Тип объекта./></typeparam>
-        </member>
-        <member name="F:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.factory">
-            <summary>
-            Ссылка на фабрику для создания объектов согласно специфики.
-            </summary>
         </member>
         <member name="M:SmallBaseDevKit.Pool.Specification.BasePoolSpecification`1.CheckInputPrototypeData(System.Object)">
             <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SmallBaseDevKit.Factory;
 
 namespace SmallBaseDevKit.Pool.Specification
 {
@@ -27,7 +28,7 @@ namespace SmallBaseDevKit.Pool.Specification
                 }
                 if (!GameUtiles.TryGetObjectInLinkedList(_poolList, EqualObjectPrediction, objectPrototype, out poolObject))
                 {
-                    poolObject = factory.CreateObject(objectPrototype);
+                    poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
                 }
                 _poolList.Remove(poolObject);
             }

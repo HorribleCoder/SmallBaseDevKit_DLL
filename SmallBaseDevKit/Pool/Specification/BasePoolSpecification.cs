@@ -13,21 +13,6 @@ namespace SmallBaseDevKit.Pool.Specification
         where T : class
     {
         /// <summary>
-        /// Ссылка на фабрику для создания объектов согласно специфики.
-        /// </summary>
-        protected internal IFactory<T> factory;
-        internal BasePoolSpecification()
-        {
-            if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
-            {
-                factory = new UnityObjectFactory<T>();
-            }
-            else
-            {
-                factory = new ClassObjectFactory<T>();
-            }
-        }
-        /// <summary>
         /// Проверка входных данных на тип данных в пулле.
         /// </summary>
         /// <param name="objectPrototype">Входящий прототип.</param>

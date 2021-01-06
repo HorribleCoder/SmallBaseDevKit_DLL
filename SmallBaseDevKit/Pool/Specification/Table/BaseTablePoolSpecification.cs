@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using SmallBaseDevKit.Factory;
+
 namespace SmallBaseDevKit.Pool.Specification
 {
     /// <summary>
@@ -32,14 +34,14 @@ namespace SmallBaseDevKit.Pool.Specification
                 if (!_poolTable.TryGetValue(GetPrototypeKey(objectPrototype), out var currentList))
                 {
                     currentList = new LinkedList<T>();
-                    poolObject = factory.CreateObject(objectPrototype);
+                    poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
                 }
                 else
                 {
                     poolObject = currentList.FirstOrDefault();
                     if (poolObject == default)
                     {
-                        poolObject = factory.CreateObject(objectPrototype);
+                        poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
                     }
                     currentList.Remove(poolObject);
                 }
