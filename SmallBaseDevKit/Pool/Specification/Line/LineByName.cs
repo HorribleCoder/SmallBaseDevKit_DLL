@@ -18,41 +18,10 @@ namespace SmallBaseDevKit.Pool.Specification
             return objectPrototype.GetType() == typeof(T);
         }
 
-        protected internal override bool FindObjectInPool(T searchObject)
-        {
-            bool result = false;
-            for (int i = 0; i < poolList.Count; ++i)
-            {
-                if (_Equal(poolList[i], searchObject))
-                {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        protected internal override bool TryGetObjectInPool(object objectPrototype, out T poolObject)
-        {
-            bool result = false;
-            poolObject = default;
-            for (int i = 0; i < poolList.Count; ++i)
-            {
-                if (_Equal(objectPrototype, poolList[i]))
-                {
-                    result = true;
-                    poolObject = poolList[i];
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        private bool _Equal(object pivotObject, object equalObject)
+        protected internal override bool EqualObjectPrediction(object pivotObject, object checkObject)
         {
             var pivotGO = (UnityEngine.Object)pivotObject;
-            var equalGO = (UnityEngine.Object)equalObject;
+            var equalGO = (UnityEngine.Object)checkObject;
             return String.Equals(pivotGO.name, equalGO.name);
         }
     }

@@ -45,5 +45,6 @@ namespace SmallBaseDevKit.Pool.Specification
             string prototypeName = (objectPrototype is Type) ? objectPrototype.ToString() : objectPrototype.GetType().ToString();
             ExceptionHandler.ExceptionProcessExecute(e, $"Invalid input data type <b>{prototypeName}</b> - use in pool data type <b>{typeof(T)}</b>");
         }
+
     }
 }

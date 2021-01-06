@@ -4,19 +4,44 @@
         <name>SmallBaseDevKit</name>
     </assembly>
     <members>
-        <member name="T:SmallBaseDevKit.Core.GameInstance">
+        <member name="T:SmallBaseDevKit.Factory.ClassObjectFactory`1">
+            <summary>
+            Спецификация фабрики по созданию объектов типа C# класса.
+            </summary>
+            <typeparam name="T">Тип объекта./></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Factory.IFactory`1">
+            <summary>
+            Интерфейс реализации фабрики объектов.
+            </summary>
+            <typeparam name="T">Тип объекта./></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.Factory.IFactory`1.CreateObject(System.Object)">
+            <summary>
+            Метод создания объекта по его прототипу.
+            </summary>
+            <param name="prototype">Прототип объекта.</param>
+            <returns>Объект релизации прототипа.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.Factory.UnityObjectFactory`1">
+            <summary>
+            Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
+            </summary>
+            <typeparam name="T">Тип объекта./></typeparam>
+        </member>
+        <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
             Класс-инициализатор в котором хранятся все необходимые игровые модули.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.Core.GameInstance.GetGameModule``1">
+        <member name="M:SmallBaseDevKit.Main.GameInstance.GetGameModule``1">
             <summary>
             Метод получения конктреного модуля.
             </summary>
             <typeparam name="T">Тип моудля.</typeparam>
             <returns>Объект модуля.</returns>
         </member>
-        <member name="T:SmallBaseDevKit.Core.MonoSingleton`1">
+        <member name="T:SmallBaseDevKit.Main.MonoSingleton`1">
             <summary>
             Класс одиночка для игровых объектов.
             </summary>
@@ -25,7 +50,7 @@
         <member name="T:SmallBaseDevKit.GameModule.BaseGameModule">
             <summary>
             Базовый класс для всех игровых модулей. Обращение к реализации модуля через 
-            <see cref="T:SmallBaseDevKit.Core.GameInstance"/>.
+            <see cref="T:SmallBaseDevKit.Main.GameInstance"/>.
             </summary>
         </member>
         <member name="T:SmallBaseDevKit.GameModule.GlobalEventModule">
@@ -62,31 +87,6 @@
             <typeparam name="T">Тип сообщения.</typeparam>
             <returns></returns>
         </member>
-        <member name="T:SmallBaseDevKit.Factory.ClassObjectFactory`1">
-            <summary>
-            Спецификация фабрики по созданию объектов типа C# класса.
-            </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
-        </member>
-        <member name="T:SmallBaseDevKit.Factory.IFactory`1">
-            <summary>
-            Интерфейс реализации фабрики объектов.
-            </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
-        </member>
-        <member name="M:SmallBaseDevKit.Factory.IFactory`1.CreateObject(System.Object)">
-            <summary>
-            Метод создания объекта по его прототипу.
-            </summary>
-            <param name="prototype">Прототип объекта.</param>
-            <returns>Объект релизации прототипа.</returns>
-        </member>
-        <member name="T:SmallBaseDevKit.Factory.UnityObjectFactory`1">
-            <summary>
-            Спецификация фабрики по созданию объектов типа MonoBehaviour или UnityEngine.Object.
-            </summary>
-            <typeparam name="T">Тип объекта./></typeparam>
-        </member>
         <member name="T:SmallBaseDevKit.Pool.IPool`1">
             <summary>
             Интерфейс игрового пула.
@@ -108,7 +108,7 @@
         </member>
         <member name="M:SmallBaseDevKit.Pool.IPool`1.PoolDebugView">
             <summary>
-            Метод проверки наполенения пулла для дебага.
+            Метод проверки наполенения пула для дебага.
             </summary>
         </member>
         <member name="T:SmallBaseDevKit.Pool.LinePool`1">
@@ -149,6 +149,14 @@
             Абстрактная спецификация для пула-списка.
             </summary>
             <typeparam name="T">Тип объекта./></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.Pool.Specification.BaseLinePoolSpecification`1.EqualObjectPrediction(System.Object,System.Object)">
+            <summary>
+            Условие проверки соотвествия двух объектов в пуле
+            </summary>
+            <param name="pivotObject"></param>
+            <param name="checkObject"></param>
+            <returns></returns>
         </member>
         <member name="T:SmallBaseDevKit.Pool.Specification.LineByName`1">
             <summary>
@@ -221,6 +229,32 @@
             </summary>
             <param name="e">Ошибка.</param>
             <param name="msg">Дополнительное сообщение.</param>
+        </member>
+        <member name="T:GameUtiles">
+            <summary>
+            Класс со всякой "полезностью" для игры.
+            </summary>
+        </member>
+        <member name="M:GameUtiles.ContainObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Func{System.Object,System.Object,System.Boolean},System.Object)">
+            <summary>
+            Метод поиска в связном списке определенного объекта, с учетом выполнения поискового условия.
+            </summary>
+            <typeparam name="T">Тип объекта.</typeparam>
+            <param name="list">Текущий связный список объектов.</param>
+            <param name="equalCallback">Условие соотвествия поиска.</param>
+            <param name="pivotObject">Сравниваемый объект.</param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:GameUtiles.TryGetObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Func{System.Object,System.Object,System.Boolean},System.Object,``0@)">
+            <summary>
+            Метод по получению объекта из связного списка, с учетом выполнения поискового условия.
+            </summary>
+            <typeparam name="T">Тип объекта.</typeparam>
+            <param name="list">Текущий связный список.</param>
+            <param name="equalCallback">Условие поиска.</param>
+            <param name="pivotObject">Объект сравнивания.</param>
+            <param name="findObject">Найденый объект.</param>
+            <returns><see cref="T:System.Boolean"/></returns>
         </member>
         <member name="T:DebugColor">
             <summary>

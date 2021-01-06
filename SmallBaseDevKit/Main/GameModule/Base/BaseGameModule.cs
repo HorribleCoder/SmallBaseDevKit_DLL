@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Базовый класс для всех игровых модулей. Обращение к реализации модуля через 
-    /// <see cref="Core.GameInstance"/>.
+    /// <see cref="Main.GameInstance"/>.
     /// </summary>
     public abstract class BaseGameModule
     {

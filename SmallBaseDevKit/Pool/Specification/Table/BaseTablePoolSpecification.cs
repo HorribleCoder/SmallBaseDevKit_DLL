@@ -12,11 +12,11 @@ namespace SmallBaseDevKit.Pool.Specification
     internal abstract class BaseTablePoolSpecification<K, T> : BasePoolSpecification<T>, IPool<T>
         where T : class
     {
-        private IDictionary<K, IList<T>> _poolTable;
+        private IDictionary<K, LinkedList<T>> _poolTable;
 
         internal BaseTablePoolSpecification() : base()
         {
-            _poolTable = new Dictionary<K, IList<T>>();
+            _poolTable = new Dictionary<K, LinkedList<T>>();
         }
 
         public T GetObject(object objectPrototype)
@@ -31,7 +31,7 @@ namespace SmallBaseDevKit.Pool.Specification
 
                 if (!_poolTable.TryGetValue(GetPrototypeKey(objectPrototype), out var currentList))
                 {
-                    currentList = new List<T>();
+                    currentList = new LinkedList<T>();
                     poolObject = factory.CreateObject(objectPrototype);
                 }
                 else
@@ -55,12 +55,12 @@ namespace SmallBaseDevKit.Pool.Specification
         public void ReturnObject(T poolObject)
         {
             var key = GetPrototypeKey(poolObject);
-            if (!_poolTable.TryGetValue(key, out var currenTable))
+            if (!_poolTable.TryGetValue(key, out var currentList))
             {
-                currenTable = new List<T>();
-                _poolTable.Add(key, currenTable);
+                currentList = new LinkedList<T>();
+                _poolTable.Add(key, currentList);
             }
-            currenTable.Add(poolObject);
+            currentList.AddFirst(poolObject);
         }
         public void PoolDebugView()
         {
@@ -68,13 +68,16 @@ namespace SmallBaseDevKit.Pool.Specification
             _Debug.Log($"Pool type - {typeof(T).Name}", DebugColor.green);
             int listCount = 0;
             int count = 0;
+            LinkedListNode<T> node = default;
             foreach(var list in _poolTable)
             {
                 _Debug.Log($"List uniq key = {list.Key}");
+                node = list.Value.First;
                 listCount++;
                 for(int i = 0; i < list.Value.Count; ++i)
                 {
-                    _Debug.Log(list.Value[i].ToString());
+                    _Debug.Log($"Node - {node.Value}");
+                    node = node.Next;
                     count++;
                 }
             }

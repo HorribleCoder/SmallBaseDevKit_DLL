@@ -10,11 +10,11 @@ namespace SmallBaseDevKit.Pool.Specification
     internal abstract class BaseLinePoolSpecification<T> : BasePoolSpecification<T>, IPool<T>
         where T : class
     {
-        protected internal List<T> poolList;
+        private LinkedList<T> _poolList;
 
         internal BaseLinePoolSpecification() : base()
         {
-            poolList = new List<T>();
+            _poolList = new LinkedList<T>();
         }
         public T GetObject(object objectPrototype)
         {
@@ -25,11 +25,11 @@ namespace SmallBaseDevKit.Pool.Specification
                 {
                     throw new Exception();
                 }
-                if (!TryGetObjectInPool(objectPrototype, out poolObject))
+                if (!GameUtiles.TryGetObjectInLinkedList(_poolList, EqualObjectPrediction, objectPrototype, out poolObject))
                 {
                     poolObject = factory.CreateObject(objectPrototype);
                 }
-                poolList.Remove(poolObject);
+                _poolList.Remove(poolObject);
             }
             catch (Exception e)
             {
@@ -39,9 +39,9 @@ namespace SmallBaseDevKit.Pool.Specification
         }
         public void ReturnObject(T poolObject)
         {
-            if (!FindObjectInPool(poolObject))
+            if(!GameUtiles.ContainObjectInLinkedList(_poolList, EqualObjectPrediction, poolObject))
             {
-                poolList.Add(poolObject);
+                _poolList.AddFirst(poolObject);
             }
         }
 
@@ -49,15 +49,20 @@ namespace SmallBaseDevKit.Pool.Specification
         {
             _Debug.Log("Debug line pool by specific!", DebugColor.blue);
             _Debug.Log($"Pool type - {typeof(T).Name}", DebugColor.green);
-            _Debug.Log($"Objects count = {poolList.Count}");
-            for(int i = 0; i < poolList.Count; ++i)
+            _Debug.Log($"Objects count = {_poolList.Count}");
+            var node = _poolList.First;
+            for(int i = 0; i < _poolList.Count; ++i)
             {
-                _Debug.Log(poolList[i].ToString());
+                _Debug.Log(node.Value);
+                node = node.Next;
             }
         }
-
-        protected internal abstract bool TryGetObjectInPool(object objectPrototype, out T poolObject);
-
-        protected internal abstract bool FindObjectInPool(T searchObject);
+        /// <summary>
+        /// Условие проверки соотвествия двух объектов в пуле
+        /// </summary>
+        /// <param name="pivotObject"></param>
+        /// <param name="checkObject"></param>
+        /// <returns></returns>
+        protected internal abstract bool EqualObjectPrediction(object pivotObject, object checkObject);
     }
 }

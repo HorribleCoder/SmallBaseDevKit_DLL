@@ -20,7 +20,7 @@
         void ReturnObject(T poolObject);
 
         /// <summary>
-        /// Метод проверки наполенения пулла для дебага.
+        /// Метод проверки наполенения пула для дебага.
         /// </summary>
         void PoolDebugView();
     }

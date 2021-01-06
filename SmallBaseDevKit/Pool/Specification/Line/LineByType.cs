@@ -23,15 +23,9 @@ namespace SmallBaseDevKit.Pool.Specification
             }
         }
 
-        protected internal override bool FindObjectInPool(T searchObject)
+        protected internal override bool EqualObjectPrediction(object pivotObject, object checkObject)
         {
-            return poolList.Exists(x => x.GetType() == searchObject.GetType());
-        }
-
-        protected internal override bool TryGetObjectInPool(object objectPrototype, out T poolObject)
-        {
-            poolObject = poolList.Find(x => x.GetType() == (Type)objectPrototype);
-            return poolObject != null;
+            return (Type)pivotObject == checkObject.GetType();
         }
     }
 }
