@@ -11,5 +11,10 @@
             CreateModule();
         }
         protected abstract void CreateModule();
+
+        public virtual void DebugModule()
+        {
+            _Debug.Log($"Module - {GetType().Name} on debug!", DebugColor.orange);
+        }
     }
 }

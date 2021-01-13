@@ -21,8 +21,26 @@ namespace SmallBaseDevKit.Pool.Specification
             }
             else
             {
-                var type = (Type)objectPrototype;
-                return type.IsSubclassOf(typeof(T));
+                if (typeof(T).IsInterface)
+                {
+                    var t = (Type)objectPrototype;
+                    var interfaces = t.GetInterfaces();
+                    bool result = false;
+                    for(int i = 0; i < interfaces.Length; ++i)
+                    {
+                        if (interfaces[i].Equals(typeof(T)))
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+                    return result;
+                }
+                else
+                {
+                    var type = (Type)objectPrototype;
+                    return type.IsSubclassOf(typeof(T));
+                }
             }
         }
 

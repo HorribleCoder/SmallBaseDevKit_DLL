@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using SmallBaseDevKit.Factory;
+
+
 /// <summary>
 /// Класс со всякой "полезностью" для игры.
 /// </summary>
@@ -13,7 +17,7 @@ public static class GameUtiles
     /// <param name="equalCallback">Условие соотвествия поиска.</param>
     /// <param name="pivotObject">Сравниваемый объект.</param>
     /// <returns><see cref="bool"/></returns>
-    public static bool ContainObjectInLinkedList<T>(LinkedList<T> list, Func<object,object,bool> equalCallback, object pivotObject)
+    public static bool ContainObjectInLinkedList<T>(LinkedList<T> list, object pivotObject, Func<object, object, bool> equalCallback)
     {
         bool result = false;
         var startNode = list.First;
@@ -36,6 +40,7 @@ public static class GameUtiles
 
         return result;
     }
+
     /// <summary>
     /// Метод по получению объекта из связного списка, с учетом выполнения поискового условия.
     /// </summary>
@@ -45,7 +50,7 @@ public static class GameUtiles
     /// <param name="pivotObject">Объект сравнивания.</param>
     /// <param name="findObject">Найденый объект.</param>
     /// <returns><see cref="bool"/></returns>
-    public static bool TryGetObjectInLinkedList<T>(LinkedList<T> list, Func<object, object, bool> equalCallback, object pivotObject, out T findObject)
+    public static bool TryGetObjectInLinkedList<T>(LinkedList<T> list, object pivotObject, out T findObject, Func<object, object, bool> equalCallback)
     {
         findObject = default;
 
@@ -73,5 +78,16 @@ public static class GameUtiles
         }
 
         return findObject != null;
+    }
+
+    /// <summary>
+    /// Метод по созданию чего угодно через игровую фабрику.
+    /// </summary>
+    /// <typeparam name="T">Тип объекта.</typeparam>
+    /// <param name="prototype">Прототип объекта.</param>
+    /// <returns>Реализация объекта.</returns>
+    public static T CreateObjectInGameFactory<T>(object prototype) where T: class
+    {
+        return GameFactory.Instance.CreateNewObject<T>(prototype);
     }
 }

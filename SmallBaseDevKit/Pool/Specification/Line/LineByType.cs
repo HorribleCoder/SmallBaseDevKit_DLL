@@ -18,14 +18,41 @@ namespace SmallBaseDevKit.Pool.Specification
             }
             else
             {
-                var type = (Type)objectPrototype;
-                return type.IsSubclassOf(typeof(T));
+                if (typeof(T).IsInterface)
+                {
+                    var t = (Type)objectPrototype;
+                    var interfaces = t.GetInterfaces();
+                    bool result = false;
+                    for (int i = 0; i < interfaces.Length; ++i)
+                    {
+                        if (interfaces[i].Equals(typeof(T)))
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+                    return result;
+                }
+                else
+                {
+                    var type = (Type)objectPrototype;
+                    return type.IsSubclassOf(typeof(T));
+                }
             }
         }
 
         protected internal override bool EqualObjectPrediction(object pivotObject, object checkObject)
         {
-            return (Type)pivotObject == checkObject.GetType();
+            bool result = false;
+            if (pivotObject is Type)
+            {
+                result = (Type)pivotObject == checkObject.GetType();
+            }
+            else
+            {
+                result = pivotObject.GetType() == checkObject.GetType();
+            }
+            return result;
         }
     }
 }

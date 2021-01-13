@@ -26,9 +26,10 @@ namespace SmallBaseDevKit.Pool.Specification
                 {
                     throw new Exception();
                 }
-                if (!GameUtiles.TryGetObjectInLinkedList(_poolList, EqualObjectPrediction, objectPrototype, out poolObject))
+                if (!GameUtiles.TryGetObjectInLinkedList(_poolList, objectPrototype, out poolObject, EqualObjectPrediction))
                 {
                     poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
+                    _Debug.Log($"Create new object - {objectPrototype}", DebugColor.orange);
                 }
                 _poolList.Remove(poolObject);
             }
@@ -40,7 +41,7 @@ namespace SmallBaseDevKit.Pool.Specification
         }
         public void ReturnObject(T poolObject)
         {
-            if(!GameUtiles.ContainObjectInLinkedList(_poolList, EqualObjectPrediction, poolObject))
+            if(!GameUtiles.ContainObjectInLinkedList(_poolList, poolObject, EqualObjectPrediction))
             {
                 _poolList.AddFirst(poolObject);
             }

@@ -17,6 +17,18 @@
             <param name="prototype">Прототип объекта.</param>
             <returns>Копия объекта.</returns>
         </member>
+        <member name="T:SmallBaseDevKit.Game">
+            <summary>
+            Класс для реализации быстрых команд.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.CreateUnit``1">
+            <summary>
+            Метод по созданию нового игрового юнита с учетом его настроек.
+            </summary>
+            <typeparam name="T">Тип юнита.</typeparam>
+            <returns>Реализация юнита.</returns>
+        </member>
         <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
             Класс-инициализатор в котором хранятся все необходимые игровые модули.
@@ -74,6 +86,29 @@
             </summary>
             <typeparam name="T">Тип сообщения.</typeparam>
             <returns></returns>
+        </member>
+        <member name="T:SmallBaseDevKit.IRegistrator`1">
+            <summary>
+            Интрефейс для регистра чего либо.
+            </summary>
+            <typeparam name="T">Тип объект, что будем регистрировать.</typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.IRegistrator`1.Registration(`0)">
+            <summary>
+            Добавляем объект в регистор.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:SmallBaseDevKit.IRegistrator`1.Unregistration(`0)">
+            <summary>
+            Удаляем объект из регистра.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="T:SmallBaseDevKit.IUpdtable">
+            <summary>
+            Интерфейс для runtime-обновляемых объектов в игре. Обновление через единный помощник - GameUpdateHandler.
+            </summary>
         </member>
         <member name="T:SmallBaseDevKit.Pool.IPool`1">
             <summary>
@@ -179,6 +214,155 @@
             </summary>
             <typeparam name="T">Тип объекта./></typeparam>
         </member>
+        <member name="T:SmallBaseDevKit.USH.State.StatePredictionAttribute">
+            <summary>
+            Атрибут для назначения условия выполнения "состояния".
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.StatePredictionAttribute.CreateStatePrediciton(System.Object,System.Reflection.MethodInfo)">
+            <summary>
+            Создаем делегат функции.
+            </summary>
+            <param name="target">Объект применения делегата.</param>
+            <param name="info">Информация о методе.</param>
+            <returns>Делегат на метод.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.State.BaseUnitState`1">
+            <summary>
+             Базовый класс для описания всех актуальных состояний, которые может принимать игровоя единица.
+            </summary>
+            <typeparam name="T">Данные состояния.</typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.Deconstruct(`0@)">
+            <summary>
+            Метод по получению хранящихся данных в актуальномы состояние.
+            </summary>
+            <param name="stateParam">Конкретный тип данных или <see cref="T:System.ValueTuple"/>.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.SetupStatePrediction">
+            <summary>
+            Настройка всех условий выполнения для текущего состояния.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.SetupHandler">
+            <summary>
+            Настройка подключения к игровой логике.
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.State.IState">
+            <summary>
+            Интерфейс для всех актуальных состояний, которые может принимать игровая единица.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.IState.SetupState(SmallBaseDevKit.USH.Unit.IUnit)">
+            <summary>
+            Первичная настройка актуального сосотяния.
+            </summary>
+            <param name="owner">Текущая игровая единица.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.IState.Execute">
+            <summary>
+            Выполнить логику актуального состояния.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.IState.CheckCompliteState">
+            <summary>
+            Проверить все условия выполнения в актуальном состояние, по умолчанию состояние не имеет заверщения.
+            Если более 1 условия выполнения состояния, то происходит логическое умножение всех условий.
+            <example>Как пример:
+            <code>
+            [<see cref="T:SmallBaseDevKit.USH.State.StatePredictionAttribute"/>]
+            <code>bool SomeStatePredictionFunction(){...}</code>
+            </code>
+            </example>
+            </summary>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.IState.StateRemove">
+            <summary>
+            Возвращение актуального состояния в пул-таблицу всех состояний.
+            <see cref="T:SmallBaseDevKit.Pool.TablePool`1"/>
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Handler.BaseGameHandler">
+            <summary>
+            Базовый класс для релиазации игровой логики. Подключать нужно через атрибут <see cref="T:SmallBaseDevKit.USH.State.RequiredHandlerAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Handler.BaseGameHandler.ConvertStateToType``1(SmallBaseDevKit.USH.State.IState)">
+            <summary>
+            Метод конвертации входящего состояния в рабочее.
+            </summary>
+            <typeparam name="T">Тип состояния с которым будет работать логика.</typeparam>
+            <param name="currenState">Входящее состояние.</param>
+            <returns>Актуальное состояние.</returns>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Handler.IHandler">
+            <summary>
+            Интерфейс для реализации игровой логики.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Handler.IHandler.ExecuteHandlerLogic(SmallBaseDevKit.USH.State.IState)">
+            <summary>
+            Выполнить логику 
+            </summary>
+            <param name="currentState"></param>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Unit.BaseUnit">
+            <summary>
+            Базовый класс игровой единицы, которая хранит в себе ряд актуальных состояний (<see cref="T:SmallBaseDevKit.USH.State.BaseUnitState`1"/>) и Unity компонентов.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit.ExtendedSetupUnit">
+            <summary>
+            Расширенный метод настройки потомков класса.
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Unit.IUnit">
+            <summary>
+            Интрефейс для всех игровых единиц со сложной логикой через актуальные состояния.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit">
+            <summary>
+            Создание игрового юнита.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState``1">
+            <summary>
+            Добавить к игровой единице текущее состояние.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.GetUnitState``1">
+            <summary>
+            Получить актуальное состояние по его типу.
+            </summary>
+            <typeparam name="S">Тип состояния.</typeparam>
+            <returns>Актуальное состояние.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.GetUnitComponent``1">
+            <summary>
+            Получить Unity-компнент по его типу.
+            </summary>
+            <typeparam name="C">Тип компонента.</typeparam>
+            <returns>Unity-компонент.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.RemoveState(SmallBaseDevKit.USH.State.IState)">
+            <summary>
+            Удалить у игровой единицы текущее состояние.
+            </summary>
+            <param name="state">Состояние.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.DestroyUnit">
+            <summary>
+            Удаление игрового юнита.
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.UpdateUnitState">
+            <summary>
+            Обновить все состояния юнита выполняется в независимости от методов OnUpdate() и OnFixedUpdate().
+            </summary>
+        </member>
         <member name="T:SmallBaseDevKit.GameException.EditorGameException">
             <summary>
             Релизация обработки ошибки по умолчанию - <see cref="N:UnityEditor"/>.
@@ -218,7 +402,7 @@
             Класс со всякой "полезностью" для игры.
             </summary>
         </member>
-        <member name="M:GameUtiles.ContainObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Func{System.Object,System.Object,System.Boolean},System.Object)">
+        <member name="M:GameUtiles.ContainObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Object,System.Func{System.Object,System.Object,System.Boolean})">
             <summary>
             Метод поиска в связном списке определенного объекта, с учетом выполнения поискового условия.
             </summary>
@@ -228,7 +412,7 @@
             <param name="pivotObject">Сравниваемый объект.</param>
             <returns><see cref="T:System.Boolean"/></returns>
         </member>
-        <member name="M:GameUtiles.TryGetObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Func{System.Object,System.Object,System.Boolean},System.Object,``0@)">
+        <member name="M:GameUtiles.TryGetObjectInLinkedList``1(System.Collections.Generic.LinkedList{``0},System.Object,``0@,System.Func{System.Object,System.Object,System.Boolean})">
             <summary>
             Метод по получению объекта из связного списка, с учетом выполнения поискового условия.
             </summary>
@@ -238,6 +422,14 @@
             <param name="pivotObject">Объект сравнивания.</param>
             <param name="findObject">Найденый объект.</param>
             <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:GameUtiles.CreateObjectInGameFactory``1(System.Object)">
+            <summary>
+            Метод по созданию чего угодно через игровую фабрику.
+            </summary>
+            <typeparam name="T">Тип объекта.</typeparam>
+            <param name="prototype">Прототип объекта.</param>
+            <returns>Реализация объекта.</returns>
         </member>
         <member name="T:DebugColor">
             <summary>

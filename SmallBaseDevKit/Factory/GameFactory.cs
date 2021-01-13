@@ -20,7 +20,7 @@ namespace SmallBaseDevKit.Factory
 
         private GameFactory()
         {
-            _Debug.Log("Create Game Factory!");
+
         }
 
         public T CreateNewObject<T>(object prototype) where T : class

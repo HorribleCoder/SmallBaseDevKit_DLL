@@ -35,6 +35,7 @@ namespace SmallBaseDevKit.Pool.Specification
                 {
                     currentList = new LinkedList<T>();
                     poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
+                    _Debug.Log($"Create new object - {objectPrototype}", DebugColor.orange);
                 }
                 else
                 {
@@ -42,6 +43,7 @@ namespace SmallBaseDevKit.Pool.Specification
                     if (poolObject == default)
                     {
                         poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
+                        _Debug.Log($"Create new object - {objectPrototype}", DebugColor.orange);
                     }
                     currentList.Remove(poolObject);
                 }
