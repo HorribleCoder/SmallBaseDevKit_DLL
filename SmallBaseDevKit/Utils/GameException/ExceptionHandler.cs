@@ -14,7 +14,6 @@ namespace SmallBaseDevKit.GameException
 
         static ExceptionHandler()
         {
-            //TODO проверка на каcтомные артибуты
             //create default error handler - unity editor
             IGameException currentException = new EditorGameException();
             ExceptionEvent += currentException.ExceptionProcessExecute;

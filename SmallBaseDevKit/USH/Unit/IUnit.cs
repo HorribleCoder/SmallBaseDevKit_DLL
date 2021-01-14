@@ -1,4 +1,5 @@
-﻿using SmallBaseDevKit.USH.State;
+﻿using UnityEngine;
+using SmallBaseDevKit.USH.State;
 
 namespace SmallBaseDevKit.USH.Unit
 {
@@ -8,34 +9,38 @@ namespace SmallBaseDevKit.USH.Unit
     public interface IUnit
     {
         /// <summary>
-        /// Создание игрового юнита.
+        /// Создание игрового юнита с входными данными.
         /// </summary>
-        void CreateUnit();
+        /// <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
+        /// <param name="unitData"></param>
+        void CreateUnit<Data>(Data unitData) where Data : ScriptableObject;
+
+        ReadData ReadUnitData<ReadData>() where ReadData : ScriptableObject;
 
         /// <summary>
         /// Добавить к игровой единице текущее состояние.
         /// </summary>
-        void AddUnitState<T>() where T: IState;
-        
+        void AddUnitState<T>() where T : IState;
+
         /// <summary>
         /// Получить актуальное состояние по его типу.
         /// </summary>
-        /// <typeparam name="S">Тип состояния.</typeparam>
+        /// <typeparam name="State">Тип состояния.</typeparam>
         /// <returns>Актуальное состояние.</returns>
-        IState GetUnitState<S>() where S : IState;
+        State GetUnitState<State>() where State : IState;
+
+        /// <summary>
+        /// Удалить у игровой единицы текущее состояние.
+        /// </summary>
+        /// <typeparam name="RemoveState"></typeparam>
+        void RemoveState<RemoveState>() where RemoveState : IState;
 
         /// <summary>
         /// Получить Unity-компнент по его типу.
         /// </summary>
         /// <typeparam name="C">Тип компонента.</typeparam>
         /// <returns>Unity-компонент.</returns>
-        UnityEngine.Object GetUnitComponent<C>() where C : UnityEngine.Object;
-
-        /// <summary>
-        /// Удалить у игровой единицы текущее состояние.
-        /// </summary>
-        /// <param name="state">Состояние.</param>
-        void RemoveState(IState state);
+        bool TryGetUnitComponent<C>(out C component) where C : Component;
 
         /// <summary>
         /// Удаление игрового юнита.

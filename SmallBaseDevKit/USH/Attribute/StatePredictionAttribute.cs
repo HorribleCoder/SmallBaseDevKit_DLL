@@ -6,7 +6,7 @@ namespace SmallBaseDevKit.USH.State
     /// <summary>
     /// Атрибут для назначения условия выполнения "состояния".
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public sealed class StatePredictionAttribute : System.Attribute
     {
         /// <summary>

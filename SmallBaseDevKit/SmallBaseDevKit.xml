@@ -22,12 +22,19 @@
             Класс для реализации быстрых команд.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.Game.CreateUnit``1">
+        <member name="M:SmallBaseDevKit.Game.CreateUnit``1(UnityEngine.ScriptableObject)">
             <summary>
             Метод по созданию нового игрового юнита с учетом его настроек.
             </summary>
-            <typeparam name="T">Тип юнита.</typeparam>
+            <typeparam name="CreateUnit">Тип юнита.</typeparam>
             <returns>Реализация юнита.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.DestroyUnit``1(``0)">
+            <summary>
+            Метод по уничтожению юнита.
+            </summary>
+            <typeparam name="CurrentUnit"></typeparam>
+            <param name="unit"></param>
         </member>
         <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
@@ -214,6 +221,11 @@
             </summary>
             <typeparam name="T">Тип объекта./></typeparam>
         </member>
+        <member name="T:SmallBaseDevKit.USH.State.RequiredHandlerAttribute">
+            <summary>
+            Атрибут для подключения состояния юнита к обработчику.
+            </summary>
+        </member>
         <member name="T:SmallBaseDevKit.USH.State.StatePredictionAttribute">
             <summary>
             Атрибут для назначения условия выполнения "состояния".
@@ -230,6 +242,7 @@
         <member name="T:SmallBaseDevKit.USH.State.BaseUnitState`1">
             <summary>
              Базовый класс для описания всех актуальных состояний, которые может принимать игровоя единица.
+             Для метода завершения состояния - <see cref="M:SmallBaseDevKit.USH.State.IState.CheckCompliteState"/>, необходимо в тело класса добавить функции с атрибутом [<see cref="T:SmallBaseDevKit.USH.State.StatePredictionAttribute"/>]
             </summary>
             <typeparam name="T">Данные состояния.</typeparam>
         </member>
@@ -267,9 +280,9 @@
         </member>
         <member name="M:SmallBaseDevKit.USH.State.IState.CheckCompliteState">
             <summary>
-            Проверить все условия выполнения в актуальном состояние, по умолчанию состояние не имеет заверщения.
-            Если более 1 условия выполнения состояния, то происходит логическое умножение всех условий.
-            <example>Как пример:
+            Проверить все условия выполнения в актуальном состояние, по умолчанию состояние не имеет заверщения (false).
+            <para>Если более 1 условия выполнения состояния, то происходит логическое умножение всех условий.</para>
+            <example>Как пример, объявление функции проверки в классе состояния:
             <code>
             [<see cref="T:SmallBaseDevKit.USH.State.StatePredictionAttribute"/>]
             <code>bool SomeStatePredictionFunction(){...}</code>
@@ -308,25 +321,48 @@
             </summary>
             <param name="currentState"></param>
         </member>
-        <member name="T:SmallBaseDevKit.USH.Unit.BaseUnit">
+        <member name="T:SmallBaseDevKit.USH.Unit.BaseUnit`1">
             <summary>
-            Базовый класс игровой единицы, которая хранит в себе ряд актуальных состояний (<see cref="T:SmallBaseDevKit.USH.State.BaseUnitState`1"/>) и Unity компонентов.
+            Базовый класс игровой единицы, которая хранит в себе ряд актуальных состояний (<see cref="T:SmallBaseDevKit.USH.State.BaseUnitState`1"/>).
+            </summary>
+            <typeparam name="UnitData">Входные данные настройки юнита, формат - <see cref="T:UnityEngine.ScriptableObject"/>.</typeparam>
+        </member>
+        <member name="F:SmallBaseDevKit.USH.Unit.BaseUnit`1.componentHandler">
+            <summary>
+            Слой с Unity компонентами что использует игровая единица. Необхоидмо произвести настройку в потомках BaseUnit. <see cref="M:SmallBaseDevKit.USH.Unit.ComponentHandler.SetupComponentHandler``1(``0,UnityEngine.GameObject)"/>
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit.ExtendedSetupUnit">
+        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit`1.ExtendedSetupUnit(`0)">
             <summary>
-            Расширенный метод настройки потомков класса.
+            Расширенный метод расширенной настройки для потомков.
             </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Unit.ComponentHandler">
+            <summary>
+            Класс по хранению и работе с Unity компонентами, что использует игровая единица.
+            <para>Может подключать  нужные компоненты в момент создания игровой единицы, через <see cref="T:UnityEngine.RequireComponent"/></para>
+            <para>По умолчанию собирает все компоненты, включая дочерние компоненты, из целевого GameObject.т</para>
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.ComponentHandler.SetupComponentHandler``1(``0,UnityEngine.GameObject)">
+            <summary>
+            Метод настройки класса с Unity компонентамию. Может обрабатывать атрибут <see cref="T:UnityEngine.RequireComponent"/>, что использует класс инициализатор.
+            </summary>
+            <typeparam name="T">Тип игровой единицы.</typeparam>
+            <param name="unit"></param>
+            <param name="targetObject"></param>
         </member>
         <member name="T:SmallBaseDevKit.USH.Unit.IUnit">
             <summary>
             Интрефейс для всех игровых единиц со сложной логикой через актуальные состояния.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit``1(``0)">
             <summary>
-            Создание игрового юнита.
+            Создание игрового юнита с входными данными.
             </summary>
+            <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
+            <param name="unitData"></param>
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState``1">
             <summary>
@@ -337,21 +373,21 @@
             <summary>
             Получить актуальное состояние по его типу.
             </summary>
-            <typeparam name="S">Тип состояния.</typeparam>
+            <typeparam name="State">Тип состояния.</typeparam>
             <returns>Актуальное состояние.</returns>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.GetUnitComponent``1">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.RemoveState``1">
+            <summary>
+            Удалить у игровой единицы текущее состояние.
+            </summary>
+            <typeparam name="RemoveState"></typeparam>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.TryGetUnitComponent``1(``0@)">
             <summary>
             Получить Unity-компнент по его типу.
             </summary>
             <typeparam name="C">Тип компонента.</typeparam>
             <returns>Unity-компонент.</returns>
-        </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.RemoveState(SmallBaseDevKit.USH.State.IState)">
-            <summary>
-            Удалить у игровой единицы текущее состояние.
-            </summary>
-            <param name="state">Состояние.</param>
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.DestroyUnit">
             <summary>

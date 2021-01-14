@@ -1,6 +1,9 @@
-﻿using SmallBaseDevKit.Main;
+﻿using UnityEngine;
+
+using SmallBaseDevKit.Main;
 using SmallBaseDevKit.GameModule;
 using SmallBaseDevKit.USH.Unit;
+using SmallBaseDevKit.USH.State;
 
 namespace SmallBaseDevKit
 {
@@ -12,19 +15,33 @@ namespace SmallBaseDevKit
         /// <summary>
         /// Метод по созданию нового игрового юнита с учетом его настроек.
         /// </summary>
-        /// <typeparam name="T">Тип юнита.</typeparam>
+        /// <typeparam name="CreateUnit">Тип юнита.</typeparam>
         /// <returns>Реализация юнита.</returns>
-        public static T CreateUnit<T>() where T: IUnit
+        public static CreateUnit CreateUnit<CreateUnit>(ScriptableObject unitData) where CreateUnit: IUnit
         {
-            var unit = GameInstance.Instance.GetGameModule<UnitModule>().GetUnit<T>();
-            unit.CreateUnit();
+            var unit = GameInstance.Instance.GetGameModule<UnitModule>().GetUnit<CreateUnit>();
+            unit.CreateUnit(unitData);
             return unit;
         }
-
-        public static void DestroyUnit<U>(U unit) where U : IUnit
+        /// <summary>
+        /// Метод по уничтожению юнита.
+        /// </summary>
+        /// <typeparam name="CurrentUnit"></typeparam>
+        /// <param name="unit"></param>
+        public static void DestroyUnit<CurrentUnit>(CurrentUnit unit) where CurrentUnit : IUnit
         {
             var i_unit = (IUnit)unit;
             i_unit.DestroyUnit();
+        }
+
+        public static void AddUnitState<AddState>(IUnit unit) where AddState : IState
+        {
+            unit.AddUnitState<AddState>();
+        }
+
+        public static void RemoveUnitState<RemoveState>(IUnit unit) where RemoveState : IState
+        {
+            unit.RemoveState<RemoveState>();
         }
     }
 }

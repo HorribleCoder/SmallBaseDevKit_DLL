@@ -6,7 +6,6 @@ public enum DebugColor
     black,
     red,
     purple,
-    pink,
     blue,
     green,
     orange,

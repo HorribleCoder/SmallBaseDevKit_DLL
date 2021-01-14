@@ -11,6 +11,7 @@ namespace SmallBaseDevKit.USH.State
 {
     /// <summary>
     ///  Базовый класс для описания всех актуальных состояний, которые может принимать игровоя единица.
+    ///  Для метода завершения состояния - <see cref="IState.CheckCompliteState"/>, необходимо в тело класса добавить функции с атрибутом [<see cref="StatePredictionAttribute"/>]
     /// </summary>
     /// <typeparam name="T">Данные состояния.</typeparam>
     public abstract class BaseUnitState<T> : IState
@@ -32,12 +33,14 @@ namespace SmallBaseDevKit.USH.State
         /// </summary>
         /// <param name="stateParam">Конкретный тип данных или <see cref="ValueTuple"/>.</param>
         public abstract void Deconstruct(out T stateParam);
+        protected abstract void ExtendedSetupState();
         #endregion
 
         #region Interface Method Realase
         void IState.SetupState(IUnit owner)
         {
             this.owner = owner;
+            ExtendedSetupState();
         }
 
         void IState.Execute()
@@ -91,7 +94,7 @@ namespace SmallBaseDevKit.USH.State
         private void SetupHandler()
         {
             var attribute = GetType().GetCustomAttribute<RequiredHandlerAttribute>();
-            if(attribute is null || !attribute.HandlerType.IsSubclassOf(typeof(BaseGameHandler)))
+            if(attribute is null)
             {
                 _handlerType = typeof(NullOrErrorHandler);
             }

@@ -2,7 +2,10 @@
 
 namespace SmallBaseDevKit.USH.State
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    /// <summary>
+    /// Атрибут для подключения состояния юнита к обработчику.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class RequiredHandlerAttribute : System.Attribute
     {
         public Type HandlerType { get; set; }
