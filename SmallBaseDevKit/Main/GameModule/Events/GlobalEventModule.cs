@@ -15,7 +15,6 @@ namespace SmallBaseDevKit.GameModule
         private IPool<EventArgs> _eventArgsPool;
         protected override void CreateModule()
         {
-            _Debug.Log("Create event handler module!");
             _eventHandlerList = new EventHandlerList();
             _eventArgsPool = new LinePool<EventArgs>();
         }

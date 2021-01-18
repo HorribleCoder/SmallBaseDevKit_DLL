@@ -33,12 +33,21 @@ namespace SmallBaseDevKit
             var i_unit = (IUnit)unit;
             i_unit.DestroyUnit();
         }
-
-        public static void AddUnitState<AddState>(IUnit unit) where AddState : IState
+        /// <summary>
+        /// Метод добавления состояния в игровую единицу.
+        /// </summary>
+        /// <typeparam name="AddState">Тип состояния.</typeparam>
+        /// <param name="unit"></param>
+        /// <param name="addStateType">Тип вставки в список.</param>
+        public static void AddUnitState<AddState>(IUnit unit, AddStateType addStateType) where AddState : IState
         {
-            unit.AddUnitState<AddState>();
+            unit.AddUnitState<AddState>(addStateType);
         }
-
+        /// <summary>
+        /// Метод удаления из игровой единицы указаногого состояния.
+        /// </summary>
+        /// <typeparam name="RemoveState">Тип состояния.</typeparam>
+        /// <param name="unit"></param>
         public static void RemoveUnitState<RemoveState>(IUnit unit) where RemoveState : IState
         {
             unit.RemoveState<RemoveState>();

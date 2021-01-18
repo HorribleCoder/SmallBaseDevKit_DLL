@@ -26,7 +26,6 @@ namespace SmallBaseDevKit.USH.Unit
 
         protected BaseUnit()
         {
-            _Debug.Log($"Create new unit - {this.GetType().Name}", DebugColor.blue);
             componentHandler = new ComponentHandler();
             _unitStateList = new LinkedList<IState>();
             GameUpdateHandler.Instance.Registration(this);
@@ -44,9 +43,15 @@ namespace SmallBaseDevKit.USH.Unit
 
         #region Abstract Methods
         /// <summary>
-        /// Расширенный метод расширенной настройки для потомков.
+        /// Метод расширенной настройки для потомков.
+        /// <para>Вызывается после получения основных данных игровой единицы в момет создания экземпляра класса.</para>
         /// </summary>
         protected abstract void ExtendedSetupUnit(UnitData unitData);
+        /// <summary>
+        /// Метод расширенного уничтожения для потомков.
+        /// <para>Вызывается до очистки списка состояний и возврата в единицы в пул.</para>
+        /// </summary>
+        protected abstract void ExtendedDestroyUnit();
         #endregion
 
         #region IUnit Method
@@ -61,16 +66,43 @@ namespace SmallBaseDevKit.USH.Unit
             return unitData as ReadData;
         }
 
-        void IUnit.AddUnitState<T>()
+        void IUnit.AddUnitState<T>(AddStateType addStateType)
         {
             if (!GameUtiles.ContainObjectInLinkedList(_unitStateList, typeof(T), EqualState))
             {
                 var state = GameInstance.Instance.GetGameModule<UnitStateModule>().GetState<T>();
                 state.SetupState(this);
-                _unitStateList.AddFirst(state);
-                _Debug.Log($"Add new unit state - {state}", DebugColor.green);
+                if(addStateType == AddStateType.AddFirst)
+                {
+                    _unitStateList.AddFirst(state);
+                }
+                else
+                {
+                    _unitStateList.AddLast(state);
+                }
             }
         }
+        void IUnit.UpdateUnitState()
+        {
+            var node = _unitStateList.First;
+            for (int i = 0; i < _unitStateList.Count; ++i)
+            {
+                node.Value.Execute();
+
+                if (node.Value.CheckCompliteState())
+                {
+                    var nextNode = node.Next;
+                    node.Value.StateRemove();
+                    _unitStateList.Remove(node);
+                    node = nextNode;
+                }
+                else
+                {
+                    node = node.Next;
+                }
+            }
+        }
+
         void IUnit.RemoveState<RemoveState>()
         {
             if(GameUtiles.TryGetObjectInLinkedList(_unitStateList, typeof(RemoveState), out var findState, EqualState))
@@ -82,6 +114,7 @@ namespace SmallBaseDevKit.USH.Unit
 
         void IUnit.DestroyUnit()
         {
+            ExtendedDestroyUnit();
             var node = _unitStateList.First;
             for(int i = 0; i < _unitStateList.Count; ++i)
             {
@@ -104,21 +137,7 @@ namespace SmallBaseDevKit.USH.Unit
             component = componentHandler.GetComponent<C>();
             return component != default;
         }
-
-        void IUnit.UpdateUnitState()
-        {
-            var node = _unitStateList.First;
-            for(int i = 0; i < _unitStateList.Count; ++i)
-            {
-                node.Value.Execute();
-                if (node.Value.CheckCompliteState())
-                {
-                    node.Value.StateRemove();
-                    _unitStateList.Remove(node);
-                }
-                node = node.Next;
-            }
-        }
+        
         #endregion
 
         protected UnitData ConvertInputData(ScriptableObject unitData)

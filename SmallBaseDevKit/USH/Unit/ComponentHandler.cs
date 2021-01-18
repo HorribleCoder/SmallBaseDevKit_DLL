@@ -87,7 +87,7 @@ namespace SmallBaseDevKit.USH.Unit
             }
             catch(Exception e)
             {
-                GameException.ExceptionHandler.ExceptionProcessExecute(e, $"Null target object (GameObject) in SetupComponentHandler() by unit - {unit.GetType().Name}");
+                GameException.ExceptionHandler.ExceptionProcessExecute(e, $"Null target object (GameObject) in <b>SetupComponentHandler()</b> by unit - {unit.GetType().Name}");
             }
            
         }
@@ -101,6 +101,15 @@ namespace SmallBaseDevKit.USH.Unit
         {
             var findComponent = _componentList.Find(x => x.GetType() == typeof(RemoveComponent));
             _componentList.Remove(findComponent);
+        }
+        //TODD Remove this!
+        //test
+        public void DebugView()
+        {
+            for(int i = 0; i< _componentList.Count; ++i)
+            {
+                _Debug.Log($"ComponentHandler - {_componentList[i]}");
+            }
         }
     }
 }

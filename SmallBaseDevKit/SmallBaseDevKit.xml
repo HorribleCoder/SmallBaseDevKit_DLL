@@ -36,6 +36,21 @@
             <typeparam name="CurrentUnit"></typeparam>
             <param name="unit"></param>
         </member>
+        <member name="M:SmallBaseDevKit.Game.AddUnitState``1(SmallBaseDevKit.USH.Unit.IUnit,SmallBaseDevKit.AddStateType)">
+            <summary>
+            Метод добавления состояния в игровую единицу.
+            </summary>
+            <typeparam name="AddState">Тип состояния.</typeparam>
+            <param name="unit"></param>
+            <param name="addStateType">Тип вставки в список.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.RemoveUnitState``1(SmallBaseDevKit.USH.Unit.IUnit)">
+            <summary>
+            Метод удаления из игровой единицы указаногого состояния.
+            </summary>
+            <typeparam name="RemoveState">Тип состояния.</typeparam>
+            <param name="unit"></param>
+        </member>
         <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
             Класс-инициализатор в котором хранятся все необходимые игровые модули.
@@ -252,6 +267,18 @@
             </summary>
             <param name="stateParam">Конкретный тип данных или <see cref="T:System.ValueTuple"/>.</param>
         </member>
+        <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.ExtendedSetupState">
+            <summary>
+            Метод расширенных настроек потомков состояния.
+            <para>Вызвается после получения ссылки на игровую единицу.</para>
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.ExtendedStateComplite">
+            <summary>
+            Метод расширенного удаления потомков состояния.
+            <para>Вызывается после отправки состояния в пул.</para>
+            </summary>
+        </member>
         <member name="M:SmallBaseDevKit.USH.State.BaseUnitState`1.SetupStatePrediction">
             <summary>
             Настройка всех условий выполнения для текущего состояния.
@@ -334,7 +361,14 @@
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit`1.ExtendedSetupUnit(`0)">
             <summary>
-            Расширенный метод расширенной настройки для потомков.
+            Метод расширенной настройки для потомков.
+            <para>Вызывается после получения основных данных игровой единицы в момет создания экземпляра класса.</para>
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit`1.ExtendedDestroyUnit">
+            <summary>
+            Метод расширенного уничтожения для потомков.
+            <para>Вызывается до очистки списка состояний и возврата в единицы в пул.</para>
             </summary>
         </member>
         <member name="T:SmallBaseDevKit.USH.Unit.ComponentHandler">
@@ -364,7 +398,7 @@
             <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
             <param name="unitData"></param>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState``1">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState``1(SmallBaseDevKit.AddStateType)">
             <summary>
             Добавить к игровой единице текущее состояние.
             </summary>
@@ -397,6 +431,11 @@
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.UpdateUnitState">
             <summary>
             Обновить все состояния юнита выполняется в независимости от методов OnUpdate() и OnFixedUpdate().
+            </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.AddStateType">
+            <summary>
+            Тип определяющий в какую часть списка вставлять актуальное состояние.
             </summary>
         </member>
         <member name="T:SmallBaseDevKit.GameException.EditorGameException">

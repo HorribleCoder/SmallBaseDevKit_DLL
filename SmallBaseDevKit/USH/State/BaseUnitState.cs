@@ -33,7 +33,16 @@ namespace SmallBaseDevKit.USH.State
         /// </summary>
         /// <param name="stateParam">Конкретный тип данных или <see cref="ValueTuple"/>.</param>
         public abstract void Deconstruct(out T stateParam);
+        /// <summary>
+        /// Метод расширенных настроек потомков состояния.
+        /// <para>Вызвается после получения ссылки на игровую единицу.</para>
+        /// </summary>
         protected abstract void ExtendedSetupState();
+        /// <summary>
+        /// Метод расширенного удаления потомков состояния.
+        /// <para>Вызывается после отправки состояния в пул.</para>
+        /// </summary>
+        protected abstract void ExtendedStateComplite();
         #endregion
 
         #region Interface Method Realase
@@ -66,6 +75,7 @@ namespace SmallBaseDevKit.USH.State
         void IState.StateRemove()
         {
             GameInstance.Instance.GetGameModule<UnitStateModule>().ReturnState(this);
+            ExtendedStateComplite();
         }
         #endregion
         /// <summary>

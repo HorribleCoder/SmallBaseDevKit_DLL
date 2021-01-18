@@ -33,12 +33,12 @@ namespace SmallBaseDevKit.Main
             _modulePool.ReturnObject(module);
             return module;
         }
-
+        //test
         public void TestDebugUnitModule()
         {
             GetGameModule<UnitModule>().DebugModule();
         }
-
+        //test
         public void TestDebugStateModule()
         {
             GetGameModule<UnitStateModule>().DebugModule();
