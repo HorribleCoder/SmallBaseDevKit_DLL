@@ -21,7 +21,8 @@ namespace SmallBaseDevKit.USH.Unit
         /// </summary>
         protected ComponentHandler componentHandler;
         private LinkedList<IState> _unitStateList;
-        private UnitData unitData;
+        public UnitData Data { get => _data; }
+        private UnitData _data;
 
 
         protected BaseUnit()
@@ -57,13 +58,13 @@ namespace SmallBaseDevKit.USH.Unit
         #region IUnit Method
         void IUnit.CreateUnit<Data>(Data unitData)
         {
-            this.unitData = ConvertInputData(unitData);
-            ExtendedSetupUnit(this.unitData);
+            this._data = ConvertInputData(unitData);
+            ExtendedSetupUnit(this._data);
         }
 
         ReadData IUnit.ReadUnitData<ReadData>()
         {
-            return unitData as ReadData;
+            return _data as ReadData;
         }
 
         void IUnit.AddUnitState<T>(AddStateType addStateType)
