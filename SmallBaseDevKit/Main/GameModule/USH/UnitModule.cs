@@ -21,13 +21,13 @@ namespace SmallBaseDevKit.GameModule
             _unitPool.PoolDebugView();
         }
 
-        public T GetUnit<T>() where T: IUnit
+        internal T GetUnit<T>() where T: IUnit
         {
             return (T)_unitPool.GetObject(typeof(T));
         }
 
 
-        public void ReturnUnit<T>(T unit) where T: IUnit
+        internal void ReturnUnit<T>(T unit) where T: IUnit
         {
             _unitPool.ReturnObject(unit);
         } 

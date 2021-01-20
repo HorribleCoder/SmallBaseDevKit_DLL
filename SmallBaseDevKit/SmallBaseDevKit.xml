@@ -51,6 +51,28 @@
             <typeparam name="RemoveState">Тип состояния.</typeparam>
             <param name="unit"></param>
         </member>
+        <member name="M:SmallBaseDevKit.Game.AddEventListner``1(System.EventHandler)">
+            <summary>
+            Добавить слушателя событий в модуль сообщений.
+            </summary>
+            <typeparam name="AddEventType">Тип события.</typeparam>
+            <param name="eventHandler">Метод обработки сообщения.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.ExecuteEvent``1(System.Object,System.Action{``0})">
+            <summary>
+            Выполнить событие в модуле сообщений.
+            </summary>
+            <typeparam name="ExecuteEventArg">Тип события.</typeparam>
+            <param name="eventArgSetupCallback">Метод настройки события.</param>
+            <param name="sender">Отправитель сообщения.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.RemoveEventListner``1(System.EventHandler)">
+            <summary>
+            Удалить слушателя из модуля сообщений.
+            </summary>
+            <typeparam name="RemoveEventType">Тип сообщения.</typeparam>
+            <param name="eventHandler">Метод обработки сообщения.</param>
+        </member>
         <member name="T:SmallBaseDevKit.Main.GameInstance">
             <summary>
             Класс-инициализатор в котором хранятся все необходимые игровые модули.

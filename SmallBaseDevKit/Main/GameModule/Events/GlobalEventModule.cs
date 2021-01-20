@@ -9,7 +9,7 @@ namespace SmallBaseDevKit.GameModule
     /// Класс с реализацией глобального обмена сообщения в игре.
     /// Реализовано через <see cref="EventHandler"/>
     /// </summary>
-    public sealed class GlobalEventModule : BaseGameModule
+    internal sealed class GlobalEventModule : BaseGameModule
     {
         private EventHandlerList _eventHandlerList;
         private IPool<EventArgs> _eventArgsPool;
@@ -24,7 +24,7 @@ namespace SmallBaseDevKit.GameModule
         /// <param name="eventKey">Уникальный ключ события, равен типу релизации <see cref="EventArgs"/></param>
         /// <param name="eventHandler">Метод обрабоки события.</param>
         #region Event Work Method
-        public void AddEvent(Type eventKey, EventHandler eventHandler)
+        internal void AddEvent(Type eventKey, EventHandler eventHandler)
         {
             _eventHandlerList.AddHandler(eventKey, eventHandler);
         }
@@ -33,7 +33,7 @@ namespace SmallBaseDevKit.GameModule
         /// </summary>
         /// <param name="eventArgs">Данные события.</param>
         /// <param name="sender">Источник события.</param>
-        public void ExecuteEvent(EventArgs eventArgs, object sender = null)
+        internal void ExecuteEvent(EventArgs eventArgs, object sender)
         {
             var copyEvent = (EventHandler)_eventHandlerList[eventArgs.GetType()];
             if (copyEvent is null) return;
@@ -45,7 +45,7 @@ namespace SmallBaseDevKit.GameModule
         /// </summary>
         /// <param name="eventKey">Уникальный ключ события, равен типу релизации <see cref="EventArgs"/></param>
         /// <param name="eventHandler">Метод обработки события.</param>
-        public void RemoveEvent(Type eventKey, EventHandler eventHandler)
+        internal void RemoveEvent(Type eventKey, EventHandler eventHandler)
         {
             _eventHandlerList.RemoveHandler(eventKey, eventHandler);
         }
@@ -55,7 +55,7 @@ namespace SmallBaseDevKit.GameModule
         /// </summary>
         /// <typeparam name="T">Тип сообщения.</typeparam>
         /// <returns></returns>
-        public T GetEventArgByType<T>() where T: EventArgs
+        internal T GetEventArgByType<T>() where T: EventArgs
         {
             var eventArg = _eventArgsPool.GetObject(typeof(T));
             _eventArgsPool.ReturnObject(eventArg);

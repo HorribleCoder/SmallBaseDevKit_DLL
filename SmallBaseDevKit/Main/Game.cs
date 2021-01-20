@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using SmallBaseDevKit.Main;
 using SmallBaseDevKit.GameModule;
@@ -12,6 +13,8 @@ namespace SmallBaseDevKit
     /// </summary>
     public static class Game
     {
+        #region Unit
+
         /// <summary>
         /// Метод по созданию нового игрового юнита с учетом его настроек.
         /// </summary>
@@ -52,5 +55,41 @@ namespace SmallBaseDevKit
         {
             unit.RemoveState<RemoveState>();
         }
+
+        #endregion
+
+        #region Event
+        /// <summary>
+        /// Добавить слушателя событий в модуль сообщений.
+        /// </summary>
+        /// <typeparam name="AddEventType">Тип события.</typeparam>
+        /// <param name="eventHandler">Метод обработки сообщения.</param>
+        public static void AddEventListner<AddEventType>(EventHandler eventHandler) where AddEventType : EventArgs
+        {
+            GameInstance.Instance.GetGameModule<GlobalEventModule>().AddEvent(typeof(AddEventType), eventHandler);
+        }
+        /// <summary>
+        /// Выполнить событие в модуле сообщений.
+        /// </summary>
+        /// <typeparam name="ExecuteEventArg">Тип события.</typeparam>
+        /// <param name="eventArgSetupCallback">Метод настройки события.</param>
+        /// <param name="sender">Отправитель сообщения.</param>
+        public static void ExecuteEvent<ExecuteEventArg>(object sender = null, Action<ExecuteEventArg> eventArgSetupCallback = null) where ExecuteEventArg : EventArgs
+        {
+            var eventArgs = GameInstance.Instance.GetGameModule<GlobalEventModule>().GetEventArgByType<ExecuteEventArg>();
+            eventArgSetupCallback?.Invoke(eventArgs);
+            GameInstance.Instance.GetGameModule<GlobalEventModule>().ExecuteEvent(eventArgs, sender);
+        }
+        /// <summary>
+        /// Удалить слушателя из модуля сообщений.
+        /// </summary>
+        /// <typeparam name="RemoveEventType">Тип сообщения.</typeparam>
+        /// <param name="eventHandler">Метод обработки сообщения.</param>
+        public static void RemoveEventListner<RemoveEventType>(EventHandler eventHandler) where RemoveEventType : EventArgs
+        {
+            GameInstance.Instance.GetGameModule<GlobalEventModule>().RemoveEvent(typeof(RemoveEventType), eventHandler);
+        }
+
+        #endregion
     }
 }
