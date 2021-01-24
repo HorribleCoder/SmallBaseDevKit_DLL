@@ -51,6 +51,15 @@
             <typeparam name="RemoveState">Тип состояния.</typeparam>
             <param name="unit"></param>
         </member>
+        <member name="M:SmallBaseDevKit.Game.GetUnitInRegistor``1(``0)">
+            <summary>
+            Метод получения конктерной игровой единицы используя отличительные характеристики(GameObject, Collider и т.д.). 
+            <para>!!!Только для наследников <see cref="T:SmallBaseDevKit.USH.Unit.BaseUnit`1"/>!!!</para>
+            </summary>
+            <typeparam name="UnitKey">Тип отличительной характеристики.</typeparam>
+            <param name="unitKey">Отличительная характеристика.</param>
+            <returns></returns>
+        </member>
         <member name="M:SmallBaseDevKit.Game.AddEventListner``1(System.EventHandler)">
             <summary>
             Добавить слушателя событий в модуль сообщений.
@@ -73,28 +82,22 @@
             <typeparam name="RemoveEventType">Тип сообщения.</typeparam>
             <param name="eventHandler">Метод обработки сообщения.</param>
         </member>
-        <member name="T:SmallBaseDevKit.Main.GameInstance">
+        <member name="T:SmallBaseDevKit.GameInstance">
             <summary>
             Класс-инициализатор в котором хранятся все необходимые игровые модули.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.Main.GameInstance.GetGameModule``1">
+        <member name="M:SmallBaseDevKit.GameInstance.GetGameModule``1">
             <summary>
             Метод получения конктреного модуля.
             </summary>
             <typeparam name="T">Тип моудля.</typeparam>
             <returns>Объект модуля.</returns>
         </member>
-        <member name="T:SmallBaseDevKit.Main.MonoSingleton`1">
-            <summary>
-            Класс одиночка для игровых объектов.
-            </summary>
-            <typeparam name="T">Наследник <see cref="T:UnityEngine.MonoBehaviour"/></typeparam>
-        </member>
         <member name="T:SmallBaseDevKit.GameModule.BaseGameModule">
             <summary>
             Базовый класс для всех игровых модулей. Обращение к реализации модуля через 
-            <see cref="T:SmallBaseDevKit.Main.GameInstance"/>.
+            <see cref="T:SmallBaseDevKit.GameInstance"/>.
             </summary>
         </member>
         <member name="T:SmallBaseDevKit.GameModule.GlobalEventModule">
@@ -153,6 +156,12 @@
             <summary>
             Интерфейс для runtime-обновляемых объектов в игре. Обновление через единный помощник - GameUpdateHandler.
             </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.MonoSingleton`1">
+            <summary>
+            Класс одиночка для игровых объектов.
+            </summary>
+            <typeparam name="T">Наследник <see cref="T:UnityEngine.MonoBehaviour"/></typeparam>
         </member>
         <member name="T:SmallBaseDevKit.Pool.IPool`1">
             <summary>

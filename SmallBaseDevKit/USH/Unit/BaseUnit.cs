@@ -21,7 +21,7 @@ namespace SmallBaseDevKit.USH.Unit
         /// </summary>
         protected ComponentHandler componentHandler;
         private LinkedList<IState> _unitStateList;
-        public UnitData Data { get => _data; }
+
         private UnitData _data;
 
 
@@ -29,7 +29,6 @@ namespace SmallBaseDevKit.USH.Unit
         {
             componentHandler = new ComponentHandler();
             _unitStateList = new LinkedList<IState>();
-            GameUpdateHandler.Instance.Registration(this);
         }
 
         public virtual void OnFixedUpdate()
@@ -59,6 +58,7 @@ namespace SmallBaseDevKit.USH.Unit
         void IUnit.CreateUnit<Data>(Data unitData)
         {
             this._data = ConvertInputData(unitData);
+            GameUpdateHandler.Instance.Registration(this);
             ExtendedSetupUnit(this._data);
         }
 
@@ -115,6 +115,7 @@ namespace SmallBaseDevKit.USH.Unit
 
         void IUnit.DestroyUnit()
         {
+            GameUpdateHandler.Instance.Unregistration(this);
             ExtendedDestroyUnit();
             var node = _unitStateList.First;
             for(int i = 0; i < _unitStateList.Count; ++i)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SmallBaseDevKit.GameModule;
+
 namespace SmallBaseDevKit.USH.Unit
 {
     /// <summary>
@@ -71,8 +73,10 @@ namespace SmallBaseDevKit.USH.Unit
                     {
                         if (r_list.Contains(targetComponentList[i].GetType()))
                         {
+                            GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().RegistrationUnit(targetComponentList[i], unit);
                             _componentList.Add(targetComponentList[i]);
                             r_list.Remove(targetComponentList[i].GetType());
+                            
                         }
                         if(r_list.Count <= 0)
                         {
@@ -83,7 +87,9 @@ namespace SmallBaseDevKit.USH.Unit
                 else
                 {
                     _componentList.AddRange(targetComponentList);
+                    GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().RegistrationUnit(targetObject, unit);
                 }
+                
             }
             catch(Exception e)
             {

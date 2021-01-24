@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-using SmallBaseDevKit.Main;
 using SmallBaseDevKit.GameModule;
 using SmallBaseDevKit.USH.Unit;
 using SmallBaseDevKit.USH.State;
@@ -54,6 +53,17 @@ namespace SmallBaseDevKit
         public static void RemoveUnitState<RemoveState>(IUnit unit) where RemoveState : IState
         {
             unit.RemoveState<RemoveState>();
+        }
+        /// <summary>
+        /// Метод получения конктерной игровой единицы используя отличительные характеристики(GameObject, Collider и т.д.). 
+        /// <para>!!!Только для наследников <see cref="BaseUnit{UnitData}"/>!!!</para>
+        /// </summary>
+        /// <typeparam name="UnitKey">Тип отличительной характеристики.</typeparam>
+        /// <param name="unitKey">Отличительная характеристика.</param>
+        /// <returns></returns>
+        public static IUnit GetUnitInRegistor<UnitKey>(UnitKey unitKey) where UnitKey : class
+        {
+            return GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().GetUnitInRegistor(unitKey);
         }
 
         #endregion

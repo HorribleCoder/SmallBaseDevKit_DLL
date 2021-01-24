@@ -9,6 +9,7 @@ namespace SmallBaseDevKit.Main
     public sealed class GameUpdateHandler : MonoSingleton<GameUpdateHandler>, IRegistrator<IUpdtable>
     {
         private LinkedList<IUpdtable> _updatableList;
+        private IList<IUpdtable> _removableList;
 
         public void Registration(IUpdtable obj)
         {
@@ -25,10 +26,11 @@ namespace SmallBaseDevKit.Main
         public void Unregistration(IUpdtable obj)
         {
             if (_updatableList is null) return;
-            if (_updatableList.Contains(obj))
+            if(_removableList is null)
             {
-                _updatableList.Remove(obj);
+                _removableList = new List<IUpdtable>();
             }
+            _removableList.Add(obj);
         }
 
         private void Update()
@@ -56,6 +58,16 @@ namespace SmallBaseDevKit.Main
                 node.Value.OnFixedUpdate();
                 node = node.Next;
             }
+        }
+
+        private void LateUpdate()
+        {
+            if (_removableList is null || _removableList.Count == 0) return;
+            for(int i = 0; i < _removableList.Count; ++i)
+            {
+                _updatableList.Remove(_removableList[i]);
+            }
+            _removableList.Clear();
         }
     }
 }

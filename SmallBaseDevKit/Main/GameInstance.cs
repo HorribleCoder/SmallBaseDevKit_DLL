@@ -3,7 +3,7 @@
 using SmallBaseDevKit.Pool;
 using SmallBaseDevKit.GameModule;
 
-namespace SmallBaseDevKit.Main
+namespace SmallBaseDevKit
 {
     /// <summary>
     /// Класс-инициализатор в котором хранятся все необходимые игровые модули.

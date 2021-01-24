@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SmallBaseDevKit.Main
+namespace SmallBaseDevKit
 {
     /// <summary>
     /// Класс одиночка для игровых объектов.
