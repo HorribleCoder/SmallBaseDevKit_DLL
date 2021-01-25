@@ -68,14 +68,21 @@ namespace SmallBaseDevKit.USH.State
                     result &= _predictionList[i].Invoke();
                 }
             }
+            if (result)
+            {
+                ExtendedStateComplite();
+            }
             return result;
         }
 
         void IState.StateRemove()
         {
             GameInstance.Instance.GetGameModule<UnitStateModule>().ReturnState(this);
-            ExtendedStateComplite();
         }
+
+        [StatePrediction]
+        protected abstract bool EndState();
+
         #endregion
         /// <summary>
         /// Настройка всех условий выполнения для текущего состояния.
