@@ -67,20 +67,16 @@ namespace SmallBaseDevKit.USH.Unit
             return _data as ReadData;
         }
 
-        void IUnit.AddUnitState<T>(AddStateType addStateType)
+        void IUnit.AddUnitState(IState state, AddStateType addStateType)
         {
-            if (!GameUtiles.ContainObjectInLinkedList(_unitStateList, typeof(T), EqualState))
+            state.SetupState(this);
+            if (addStateType == AddStateType.AddFirst)
             {
-                var state = GameInstance.Instance.GetGameModule<UnitStateModule>().GetState<T>();
-                state.SetupState(this);
-                if(addStateType == AddStateType.AddFirst)
-                {
-                    _unitStateList.AddFirst(state);
-                }
-                else
-                {
-                    _unitStateList.AddLast(state);
-                }
+                _unitStateList.AddFirst(state);
+            }
+            else
+            {
+                _unitStateList.AddLast(state);
             }
         }
         void IUnit.UpdateUnitState()
@@ -128,10 +124,11 @@ namespace SmallBaseDevKit.USH.Unit
             GameInstance.Instance.GetGameModule<UnitModule>().ReturnUnit(this);
         }
 
-        S IUnit.GetUnitState<S>()
+        bool IUnit.TryGetUnitState<S>(out S state)
         {
-            GameUtiles.TryGetObjectInLinkedList(_unitStateList, typeof(S), out var state, EqualState);
-            return (S)state;
+            var result = GameUtiles.TryGetObjectInLinkedList(_unitStateList, typeof(S), out var findState, EqualState);
+            state = (S)findState;
+            return result;
         }
 
         bool IUnit.TryGetUnitComponent<C>(out C component)

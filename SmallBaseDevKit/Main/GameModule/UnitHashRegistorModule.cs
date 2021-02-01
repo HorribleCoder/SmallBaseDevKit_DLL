@@ -14,7 +14,7 @@ namespace SmallBaseDevKit.GameModule
             _unitHashRegistor = new Dictionary<Type, IDictionary<int, IUnit>>();
         }
 
-        internal void RegistrationUnit<RegistrationType>(RegistrationType type, IUnit unit) where RegistrationType : class
+        internal void RegistrationUnit<T>(T type, IUnit unit) where T : class
         {
             if (!_unitHashRegistor.TryGetValue(type.GetType(), out var currentDictionary))
             {
@@ -27,7 +27,7 @@ namespace SmallBaseDevKit.GameModule
             }
         }
 
-        internal void UnregistrationUnit<UnregistrationType>(UnregistrationType type, IUnit unit) where UnregistrationType : class
+        internal void UnregistrationUnit<T>(T type, IUnit unit) where T : class
         {
             if(_unitHashRegistor.TryGetValue(type.GetType(), out var currentDictionary))
             {
@@ -35,12 +35,12 @@ namespace SmallBaseDevKit.GameModule
             }
         }
 
-        internal IUnit GetUnitInRegistor<TypeKey>(TypeKey unitKey) where TypeKey : class
+        internal IUnit GetUnitInRegistor<T>(T unitKey) where T : class
         {
             IUnit unit = default;
             try
             {
-                if(_unitHashRegistor.TryGetValue(typeof(TypeKey), out var currentDictionary))
+                if(_unitHashRegistor.TryGetValue(typeof(T), out var currentDictionary))
                 {
                     currentDictionary.TryGetValue(unitKey.GetHashCode(), out unit);
                 }
@@ -51,9 +51,60 @@ namespace SmallBaseDevKit.GameModule
             }
             catch(Exception e)
             {
-                ExceptionHandler.ExceptionProcessExecute(e, $"Unit Registor don't have Unit with hash-key {typeof(TypeKey).Name}");
+                ExceptionHandler.ExceptionProcessExecute(e, $"Unit Registor don't have Unit with hash-key {typeof(T).Name}");
             }
             return unit;
+        }
+
+        internal int GetUnitIndexInRegistor<T>(IUnit unit) where T : class
+        {
+            int unitIndex = 0;
+            try
+            {
+                if(!_unitHashRegistor.TryGetValue(typeof(T), out var currentDictionary))
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    bool haveResult = false;
+                    foreach(var el in currentDictionary)
+                    {
+                        if(el.Value.GetHashCode() == unit.GetHashCode())
+                        {
+                            haveResult = true;
+                            break;
+                        }
+                        unitIndex++;
+                    }
+                    if (!haveResult)
+                    {
+                        throw new Exception();
+                    }
+                }
+                
+            }
+            catch(Exception e)
+            {
+                ExceptionHandler.ExceptionProcessExecute(e, $"Unit {unit.GetType().Name} don't registred in list by key - {typeof(T)}");
+            }
+
+            return unitIndex;
+        }
+
+        internal int GetUnitCountInRegistorByType<T>() where T : class
+        {
+            int result = 0;
+            if(_unitHashRegistor.TryGetValue(typeof(T), out var currentDictionary))
+            {
+                result = currentDictionary.Count;
+            }
+            return result;
+        }
+
+        internal void ResetUnitRegistor()
+        {
+            _unitHashRegistor.Clear();
         }
     }
 }

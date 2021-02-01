@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
+using UnityEngine;
 
 using SmallBaseDevKit.Factory;
 
@@ -90,4 +92,28 @@ public static class GameUtiles
     {
         return GameFactory.Instance.CreateNewObject<T>(prototype);
     }
+
+    /// <summary>
+    /// Метод записи данных в формате Json
+    /// </summary>
+    /// <typeparam name="T">Тип данных.</typeparam>
+    /// <param name="obj">Данные.</param>
+    /// <param name="filePath">Путь к файлу.</param>
+    /// <param name="fileName">Имя файла.</param>
+    public static void WriteJSON<T>(T obj, string filePath, string fileName) where T: class
+    {
+        File.WriteAllText(string.Concat(filePath.Trim(), $"{fileName.Trim()}.json"), JsonUtility.ToJson(obj));
+    }
+    /// <summary>
+    /// метод чтения данных из Json файла.
+    /// </summary>
+    /// <typeparam name="T">Тип данных.</typeparam>
+    /// <param name="filePath">Путь к файлу.</param>
+    /// <param name="fileName">Имя файла.</param>
+    /// <returns></returns>
+    public static T ReadJSON<T>(string filePath, string fileName) where T: class
+    {
+        return JsonUtility.FromJson<T>(File.ReadAllText(string.Concat(filePath.Trim(), $"{fileName.Trim()}.json")));
+    }
+    
 }

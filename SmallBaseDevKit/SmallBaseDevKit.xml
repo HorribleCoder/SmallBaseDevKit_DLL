@@ -60,6 +60,26 @@
             <param name="unitKey">Отличительная характеристика.</param>
             <returns></returns>
         </member>
+        <member name="M:SmallBaseDevKit.Game.GetUnitCountInRegistor``1">
+            <summary>
+            Метод получения числа игровых единиц по регистрационому типу.
+            </summary>
+            <typeparam name="KeyType"></typeparam>
+            <returns>Число игровых единицна данный момент.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.GetUnitIndexInRegistor``1(SmallBaseDevKit.USH.Unit.IUnit)">
+            <summary>
+            Получить текущий индекс игровой единицы в регистре.
+            </summary>
+            <typeparam name="T">Тип ключа в регистре.</typeparam>
+            <param name="unit">Конретная игровая единица.</param>
+            <returns>Индекс.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.ResetUnitRegistor">
+            <summary>
+            Метод сброса регистра игровых единиц.
+            </summary>
+        </member>
         <member name="M:SmallBaseDevKit.Game.AddEventListner``1(System.EventHandler)">
             <summary>
             Добавить слушателя событий в модуль сообщений.
@@ -429,17 +449,18 @@
             <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
             <param name="unitData"></param>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState``1(SmallBaseDevKit.AddStateType)">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState(SmallBaseDevKit.USH.State.IState,SmallBaseDevKit.AddStateType)">
             <summary>
             Добавить к игровой единице текущее состояние.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.GetUnitState``1">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.TryGetUnitState``1(``0@)">
             <summary>
             Получить актуальное состояние по его типу.
             </summary>
             <typeparam name="State">Тип состояния.</typeparam>
-            <returns>Актуальное состояние.</returns>
+            <param name="state"></param>
+            <returns></returns>
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.RemoveState``1">
             <summary>
@@ -536,6 +557,24 @@
             <typeparam name="T">Тип объекта.</typeparam>
             <param name="prototype">Прототип объекта.</param>
             <returns>Реализация объекта.</returns>
+        </member>
+        <member name="M:GameUtiles.WriteJSON``1(``0,System.String,System.String)">
+            <summary>
+            Метод записи данных в формате Json
+            </summary>
+            <typeparam name="T">Тип данных.</typeparam>
+            <param name="obj">Данные.</param>
+            <param name="filePath">Путь к файлу.</param>
+            <param name="fileName">Имя файла.</param>
+        </member>
+        <member name="M:GameUtiles.ReadJSON``1(System.String,System.String)">
+            <summary>
+            метод чтения данных из Json файла.
+            </summary>
+            <typeparam name="T">Тип данных.</typeparam>
+            <param name="filePath">Путь к файлу.</param>
+            <param name="fileName">Имя файла.</param>
+            <returns></returns>
         </member>
         <member name="T:DebugColor">
             <summary>

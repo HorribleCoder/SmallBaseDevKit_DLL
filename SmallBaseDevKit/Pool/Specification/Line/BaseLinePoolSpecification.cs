@@ -29,8 +29,6 @@ namespace SmallBaseDevKit.Pool.Specification
                 if (!GameUtiles.TryGetObjectInLinkedList(_poolList, objectPrototype, out poolObject, EqualObjectPrediction))
                 {
                     poolObject = GameFactory.Instance.CreateNewObject<T>(objectPrototype);
-                    //TODO Remove this!!!
-                    _Debug.Log($"Create new object - {objectPrototype}", DebugColor.orange);
                 }
                 _poolList.Remove(poolObject);
             }

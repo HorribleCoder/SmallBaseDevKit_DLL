@@ -20,14 +20,14 @@ namespace SmallBaseDevKit.USH.Unit
         /// <summary>
         /// Добавить к игровой единице текущее состояние.
         /// </summary>
-        void AddUnitState<T>(AddStateType addStateType) where T : IState;
-
+        void AddUnitState(IState state, AddStateType addStateType);
         /// <summary>
         /// Получить актуальное состояние по его типу.
         /// </summary>
         /// <typeparam name="State">Тип состояния.</typeparam>
-        /// <returns>Актуальное состояние.</returns>
-        State GetUnitState<State>() where State : IState;
+        /// <param name="state"></param>
+        /// <returns></returns>
+        bool TryGetUnitState<State>(out State state) where State : IState;
 
         /// <summary>
         /// Удалить у игровой единицы текущее состояние.

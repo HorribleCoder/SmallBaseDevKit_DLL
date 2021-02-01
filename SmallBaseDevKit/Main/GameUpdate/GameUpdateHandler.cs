@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using SmallBaseDevKit.USH.Unit;
@@ -10,6 +11,9 @@ namespace SmallBaseDevKit.Main
     {
         private LinkedList<IUpdtable> _updatableList;
         private IList<IUpdtable> _removableList;
+
+        internal delegate void InvokeLateUpdateSubprocess();
+        internal event InvokeLateUpdateSubprocess invokeLateUpdateSubprocessEvent;
 
         public void Registration(IUpdtable obj)
         {
@@ -33,14 +37,19 @@ namespace SmallBaseDevKit.Main
             _removableList.Add(obj);
         }
 
+        private void Start()
+        {
+            StartCoroutine(LateAddStateForUnitSubprocess());
+        }
+
         private void Update()
         {
             //Производим обновление игровых единиц + нвсегда обновляем актуальные состояния и компоненты в игровой единице.
             var node = _updatableList.First;
             IUnit unitNode = default;
-            for(int i = 0; i < _updatableList.Count; ++i)
+            while(node != null)
             {
-                if(node.Value is IUnit)
+                if (node.Value is IUnit)
                 {
                     unitNode = (IUnit)node.Value;
                     unitNode.UpdateUnitState();
@@ -68,6 +77,15 @@ namespace SmallBaseDevKit.Main
                 _updatableList.Remove(_removableList[i]);
             }
             _removableList.Clear();
+        }
+
+        private IEnumerator LateAddStateForUnitSubprocess()
+        {
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                invokeLateUpdateSubprocessEvent.Invoke();
+            }
         }
     }
 }

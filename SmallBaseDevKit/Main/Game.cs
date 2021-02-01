@@ -43,7 +43,11 @@ namespace SmallBaseDevKit
         /// <param name="addStateType">Тип вставки в список.</param>
         public static void AddUnitState<AddState>(IUnit unit, AddStateType addStateType) where AddState : IState
         {
-            unit.AddUnitState<AddState>(addStateType);
+            if(!unit.TryGetUnitState<AddState>(out var state))
+            {
+                var module = GameInstance.Instance.GetGameModule<UnitStateModule>();
+                module.AddStateInAwaitList(unit, module.GetState<AddState>(), addStateType);
+            }
         }
         /// <summary>
         /// Метод удаления из игровой единицы указаногого состояния.
@@ -64,6 +68,33 @@ namespace SmallBaseDevKit
         public static IUnit GetUnitInRegistor<UnitKey>(UnitKey unitKey) where UnitKey : class
         {
             return GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().GetUnitInRegistor(unitKey);
+        }
+        /// <summary>
+        /// Метод получения числа игровых единиц по регистрационому типу.
+        /// </summary>
+        /// <typeparam name="KeyType"></typeparam>
+        /// <returns>Число игровых единицна данный момент.</returns>
+        public static int GetUnitCountInRegistor<KeyType>() where KeyType : class
+        {
+            return GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().GetUnitCountInRegistorByType<KeyType>();
+        }
+        /// <summary>
+        /// Получить текущий индекс игровой единицы в регистре.
+        /// </summary>
+        /// <typeparam name="T">Тип ключа в регистре.</typeparam>
+        /// <param name="unit">Конретная игровая единица.</param>
+        /// <returns>Индекс.</returns>
+        public static int GetUnitIndexInRegistor<T>(IUnit unit) where T: class
+        {
+            return GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().GetUnitIndexInRegistor<T>(unit);
+        }
+
+        /// <summary>
+        /// Метод сброса регистра игровых единиц.
+        /// </summary>
+        public static void ResetUnitRegistor()
+        {
+            GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().ResetUnitRegistor();
         }
 
         #endregion
