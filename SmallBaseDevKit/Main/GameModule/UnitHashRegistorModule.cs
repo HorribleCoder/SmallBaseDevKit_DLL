@@ -86,7 +86,7 @@ namespace SmallBaseDevKit.GameModule
             }
             catch(Exception e)
             {
-                ExceptionHandler.ExceptionProcessExecute(e, $"Unit {unit.GetType().Name} don't registred in list by key - {typeof(T)}");
+                ExceptionHandler.ExceptionProcessExecute(e, $"Unit {unit.GetType().Name} - hash - {unit.GetHashCode()} don't registred in list by key - {typeof(T)}");
             }
 
             return unitIndex;
@@ -100,6 +100,17 @@ namespace SmallBaseDevKit.GameModule
                 result = currentDictionary.Count;
             }
             return result;
+        }
+
+        internal void ExecuteSomeActionWithAllUnitInRegistor<T>(Action<IUnit> action) where T: class
+        {
+            if(_unitHashRegistor.TryGetValue(typeof(T), out var currentTable))
+            {
+                foreach(var el in currentTable)
+                {
+                    action.Invoke(el.Value);
+                }
+            }
         }
 
         internal void ResetUnitRegistor()

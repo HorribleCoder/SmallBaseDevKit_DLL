@@ -22,25 +22,32 @@
             Класс для реализации быстрых команд.
             </summary>
         </member>
+        <member name="M:SmallBaseDevKit.Game.CreateNewObject``1(System.Object)">
+            <summary>
+            Создать экземпляр объекта ссылаясь на прототип.
+            </summary>
+            <typeparam name="T">Тип объекта.</typeparam>
+            <param name="prototype">Прототип.</param>
+            <returns></returns>
+        </member>
         <member name="M:SmallBaseDevKit.Game.CreateUnit``1(UnityEngine.ScriptableObject)">
             <summary>
             Метод по созданию нового игрового юнита с учетом его настроек.
             </summary>
-            <typeparam name="CreateUnit">Тип юнита.</typeparam>
+            <typeparam name="T">Тип юнита.</typeparam>
             <returns>Реализация юнита.</returns>
         </member>
-        <member name="M:SmallBaseDevKit.Game.DestroyUnit``1(``0)">
+        <member name="M:SmallBaseDevKit.Game.DestroyUnit(SmallBaseDevKit.USH.Unit.IUnit)">
             <summary>
             Метод по уничтожению юнита.
             </summary>
-            <typeparam name="CurrentUnit"></typeparam>
             <param name="unit"></param>
         </member>
         <member name="M:SmallBaseDevKit.Game.AddUnitState``1(SmallBaseDevKit.USH.Unit.IUnit,SmallBaseDevKit.AddStateType)">
             <summary>
             Метод добавления состояния в игровую единицу.
             </summary>
-            <typeparam name="AddState">Тип состояния.</typeparam>
+            <typeparam name="T">Тип состояния.</typeparam>
             <param name="unit"></param>
             <param name="addStateType">Тип вставки в список.</param>
         </member>
@@ -48,15 +55,22 @@
             <summary>
             Метод удаления из игровой единицы указаногого состояния.
             </summary>
-            <typeparam name="RemoveState">Тип состояния.</typeparam>
+            <typeparam name="T">Тип состояния.</typeparam>
             <param name="unit"></param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.AddUnitInRegistorBySpecificType``1(``0,SmallBaseDevKit.USH.Unit.IUnit)">
+            <summary>
+            Метод регистрации игровой единицы по отличительной хаарктеристики( GameObject, Collider и т.д.)
+            </summary>
+            <typeparam name="T">Тип характеристики.</typeparam>
+            <param name="registrationType">Отличительная характеристика.</param>
+            <param name="unit">Текущая игровая единица.</param>
         </member>
         <member name="M:SmallBaseDevKit.Game.GetUnitInRegistor``1(``0)">
             <summary>
             Метод получения конктерной игровой единицы используя отличительные характеристики(GameObject, Collider и т.д.). 
-            <para>!!!Только для наследников <see cref="T:SmallBaseDevKit.USH.Unit.BaseUnit`1"/>!!!</para>
             </summary>
-            <typeparam name="UnitKey">Тип отличительной характеристики.</typeparam>
+            <typeparam name="T">Тип отличительной характеристики.</typeparam>
             <param name="unitKey">Отличительная характеристика.</param>
             <returns></returns>
         </member>
@@ -64,7 +78,7 @@
             <summary>
             Метод получения числа игровых единиц по регистрационому типу.
             </summary>
-            <typeparam name="KeyType"></typeparam>
+            <typeparam name="T"></typeparam>
             <returns>Число игровых единицна данный момент.</returns>
         </member>
         <member name="M:SmallBaseDevKit.Game.GetUnitIndexInRegistor``1(SmallBaseDevKit.USH.Unit.IUnit)">
@@ -75,6 +89,13 @@
             <param name="unit">Конретная игровая единица.</param>
             <returns>Индекс.</returns>
         </member>
+        <member name="M:SmallBaseDevKit.Game.ForEachAllUnitInRegistor``1(System.Action{SmallBaseDevKit.USH.Unit.IUnit})">
+            <summary>
+            Выполнить указанное действие для всех игровых единиц в регистре по ключ-типу.
+            </summary>
+            <typeparam name="T">Ключ тип.</typeparam>
+            <param name="action">Действие с игровой единицей.</param>
+        </member>
         <member name="M:SmallBaseDevKit.Game.ResetUnitRegistor">
             <summary>
             Метод сброса регистра игровых единиц.
@@ -84,14 +105,14 @@
             <summary>
             Добавить слушателя событий в модуль сообщений.
             </summary>
-            <typeparam name="AddEventType">Тип события.</typeparam>
+            <typeparam name="T">Тип события.</typeparam>
             <param name="eventHandler">Метод обработки сообщения.</param>
         </member>
         <member name="M:SmallBaseDevKit.Game.ExecuteEvent``1(System.Object,System.Action{``0})">
             <summary>
             Выполнить событие в модуле сообщений.
             </summary>
-            <typeparam name="ExecuteEventArg">Тип события.</typeparam>
+            <typeparam name="T">Тип события.</typeparam>
             <param name="eventArgSetupCallback">Метод настройки события.</param>
             <param name="sender">Отправитель сообщения.</param>
         </member>
@@ -432,6 +453,7 @@
         <member name="M:SmallBaseDevKit.USH.Unit.ComponentHandler.SetupComponentHandler``1(``0,UnityEngine.GameObject)">
             <summary>
             Метод настройки класса с Unity компонентамию. Может обрабатывать атрибут <see cref="T:UnityEngine.RequireComponent"/>, что использует класс инициализатор.
+            <para>Весьма медленный метод, использовать с умом.</para>
             </summary>
             <typeparam name="T">Тип игровой единицы.</typeparam>
             <param name="unit"></param>
@@ -442,12 +464,24 @@
             Интрефейс для всех игровых единиц со сложной логикой через актуальные состояния.
             </summary>
         </member>
+        <member name="P:SmallBaseDevKit.USH.Unit.IUnit.isActive">
+            <summary>
+            Активна ли игровая единица.
+            </summary>
+        </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit``1(``0)">
             <summary>
             Создание игрового юнита с входными данными.
             </summary>
             <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
             <param name="unitData"></param>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.ReadUnitData``1">
+            <summary>
+            Получить данные игровой единицы.
+            </summary>
+            <typeparam name="ReadData">Тип данных.</typeparam>
+            <returns></returns>
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState(SmallBaseDevKit.USH.State.IState,SmallBaseDevKit.AddStateType)">
             <summary>

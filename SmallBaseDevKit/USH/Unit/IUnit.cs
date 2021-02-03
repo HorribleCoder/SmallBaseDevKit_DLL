@@ -9,12 +9,22 @@ namespace SmallBaseDevKit.USH.Unit
     public interface IUnit
     {
         /// <summary>
+        /// Активна ли игровая единица.
+        /// </summary>
+        bool isActive { get; }
+
+        /// <summary>
         /// Создание игрового юнита с входными данными.
         /// </summary>
         /// <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
         /// <param name="unitData"></param>
         void CreateUnit<Data>(Data unitData) where Data : ScriptableObject;
 
+        /// <summary>
+        /// Получить данные игровой единицы.
+        /// </summary>
+        /// <typeparam name="ReadData">Тип данных.</typeparam>
+        /// <returns></returns>
         ReadData ReadUnitData<ReadData>() where ReadData : ScriptableObject;
 
         /// <summary>

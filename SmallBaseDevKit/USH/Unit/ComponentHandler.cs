@@ -21,6 +21,7 @@ namespace SmallBaseDevKit.USH.Unit
         }
         /// <summary>
         /// Метод настройки класса с Unity компонентамию. Может обрабатывать атрибут <see cref="RequireComponent"/>, что использует класс инициализатор.
+        /// <para>Весьма медленный метод, использовать с умом.</para>
         /// </summary>
         /// <typeparam name="T">Тип игровой единицы.</typeparam>
         /// <param name="unit"></param>
@@ -73,7 +74,6 @@ namespace SmallBaseDevKit.USH.Unit
                     {
                         if (r_list.Contains(targetComponentList[i].GetType()))
                         {
-                            GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().RegistrationUnit(targetComponentList[i], unit);
                             _componentList.Add(targetComponentList[i]);
                             r_list.Remove(targetComponentList[i].GetType());
                             
@@ -87,7 +87,6 @@ namespace SmallBaseDevKit.USH.Unit
                 else
                 {
                     _componentList.AddRange(targetComponentList);
-                    GameInstance.Instance.GetGameModule<UnitHashRegistorModule>().RegistrationUnit(targetObject, unit);
                 }
                 
             }
@@ -98,15 +97,20 @@ namespace SmallBaseDevKit.USH.Unit
            
         }
 
-        public GetComponent GetComponent<GetComponent>() where GetComponent : Component
+        public T GetComponent<T>() where T : Component
         {
-            return _componentList.Find(x => x.GetType() == typeof(GetComponent)) as GetComponent;
+            return _componentList.Find(x => x.GetType() == typeof(T)) as T;
         }
 
-        public void RemoveComponent<RemoveComponent>() where RemoveComponent : Component
+        public void RemoveComponent<T>() where T : Component
         {
-            var findComponent = _componentList.Find(x => x.GetType() == typeof(RemoveComponent));
+            var findComponent = _componentList.Find(x => x.GetType() == typeof(T));
             _componentList.Remove(findComponent);
+        }
+
+        public void ResetComponentHandler()
+        {
+            _componentList.Clear();
         }
         //TODD Remove this!
         //test

@@ -24,6 +24,8 @@ namespace SmallBaseDevKit.USH.Unit
 
         private UnitData _data;
 
+        public bool isActive => _isActive;
+        private bool _isActive;
 
         protected BaseUnit()
         {
@@ -60,6 +62,7 @@ namespace SmallBaseDevKit.USH.Unit
             this._data = ConvertInputData(unitData);
             GameUpdateHandler.Instance.Registration(this);
             ExtendedSetupUnit(this._data);
+            _isActive = true;
         }
 
         ReadData IUnit.ReadUnitData<ReadData>()
@@ -122,6 +125,7 @@ namespace SmallBaseDevKit.USH.Unit
             }
             _unitStateList.Clear();
             GameInstance.Instance.GetGameModule<UnitModule>().ReturnUnit(this);
+            _isActive = false;
         }
 
         bool IUnit.TryGetUnitState<S>(out S state)
