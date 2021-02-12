@@ -30,11 +30,19 @@
             <param name="prototype">Прототип.</param>
             <returns></returns>
         </member>
-        <member name="M:SmallBaseDevKit.Game.CreateUnit``1(UnityEngine.ScriptableObject)">
+        <member name="M:SmallBaseDevKit.Game.CreateUnit``1">
+            <summary>
+            Метод по созданию нового игрового юнита, без натсроек.
+            </summary>
+            <typeparam name="T">Тип юнита.</typeparam>
+            <returns>Реализация юнита.</returns>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.CreateUnit``2(``1)">
             <summary>
             Метод по созданию нового игрового юнита с учетом его настроек.
             </summary>
             <typeparam name="T">Тип юнита.</typeparam>
+            <typeparam name="D">Тип данных настроек</typeparam>
             <returns>Реализация юнита.</returns>
         </member>
         <member name="M:SmallBaseDevKit.Game.DestroyUnit(SmallBaseDevKit.USH.Unit.IUnit)">
@@ -50,6 +58,36 @@
             <typeparam name="T">Тип состояния.</typeparam>
             <param name="unit"></param>
             <param name="addStateType">Тип вставки в список.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.AddUnitStateGroup``2(SmallBaseDevKit.USH.Unit.IUnit,SmallBaseDevKit.AddStateType)">
+            <summary>
+            Метод доабвления группы состояний.
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <param name="unit"></param>
+            <param name="addStateType"></param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.AddUnitStateGroup``3(SmallBaseDevKit.USH.Unit.IUnit,SmallBaseDevKit.AddStateType)">
+            <summary>
+            Метод доабвления группы состояний.
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <param name="unit"></param>
+            <param name="addStateType"></param>
+        </member>
+        <member name="M:SmallBaseDevKit.Game.AddUnitStateGroup``4(SmallBaseDevKit.USH.Unit.IUnit,SmallBaseDevKit.AddStateType)">
+            <summary>
+            Метод доабвления группы состояний.
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <param name="unit"></param>
+            <param name="addStateType"></param>
         </member>
         <member name="M:SmallBaseDevKit.Game.RemoveUnitState``1(SmallBaseDevKit.USH.Unit.IUnit)">
             <summary>
@@ -396,18 +434,18 @@
             <see cref="T:SmallBaseDevKit.Pool.TablePool`1"/>
             </summary>
         </member>
+        <member name="M:SmallBaseDevKit.USH.State.StateExtention.ConvertTo``1(SmallBaseDevKit.USH.State.IState)">
+            <summary>
+            Конвертирвать текущее состояние в нужное.
+            </summary>
+            <typeparam name="T">Тип состояние в которое конвертируется.</typeparam>
+            <param name="state">Текущее состояние.</param>
+            <returns></returns>
+        </member>
         <member name="T:SmallBaseDevKit.USH.Handler.BaseGameHandler">
             <summary>
             Базовый класс для релиазации игровой логики. Подключать нужно через атрибут <see cref="T:SmallBaseDevKit.USH.State.RequiredHandlerAttribute"/>.
             </summary>
-        </member>
-        <member name="M:SmallBaseDevKit.USH.Handler.BaseGameHandler.ConvertStateToType``1(SmallBaseDevKit.USH.State.IState)">
-            <summary>
-            Метод конвертации входящего состояния в рабочее.
-            </summary>
-            <typeparam name="T">Тип состояния с которым будет работать логика.</typeparam>
-            <param name="currenState">Входящее состояние.</param>
-            <returns>Актуальное состояние.</returns>
         </member>
         <member name="T:SmallBaseDevKit.USH.Handler.IHandler">
             <summary>
@@ -420,28 +458,27 @@
             </summary>
             <param name="currentState"></param>
         </member>
-        <member name="T:SmallBaseDevKit.USH.Unit.BaseUnit`1">
+        <member name="P:SmallBaseDevKit.USH.Unit.BaseUnit.ComponentHandler">
             <summary>
-            Базовый класс игровой единицы, которая хранит в себе ряд актуальных состояний (<see cref="T:SmallBaseDevKit.USH.State.BaseUnitState`1"/>).
-            </summary>
-            <typeparam name="UnitData">Входные данные настройки юнита, формат - <see cref="T:UnityEngine.ScriptableObject"/>.</typeparam>
-        </member>
-        <member name="F:SmallBaseDevKit.USH.Unit.BaseUnit`1.componentHandler">
-            <summary>
-            Слой с Unity компонентами что использует игровая единица. Необхоидмо произвести настройку в потомках BaseUnit. <see cref="M:SmallBaseDevKit.USH.Unit.ComponentHandler.SetupComponentHandler``1(``0,UnityEngine.GameObject)"/>
+            Слой с Unity компонентами что использует игровая единица. Необходимо произвести настройку в потомках BaseUnit, через вызов метода - SetupComponentHandler
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit`1.ExtendedSetupUnit(`0)">
+        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit.ExtendedSetupUnit">
             <summary>
             Метод расширенной настройки для потомков.
-            <para>Вызывается после получения основных данных игровой единицы в момет создания экземпляра класса.</para>
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit`1.ExtendedDestroyUnit">
+        <member name="M:SmallBaseDevKit.USH.Unit.BaseUnit.ExtendedDestroyUnit">
             <summary>
             Метод расширенного уничтожения для потомков.
             <para>Вызывается до очистки списка состояний и возврата в единицы в пул.</para>
             </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Unit.BaseUnitWithData`1">
+            <summary>
+            Базовый класс игровой единицы, в которой хранятся данные настройки./>
+            </summary>
+            <typeparam name="UnitData">Входные данные настройки юнита, формат - <see cref="T:UnityEngine.ScriptableObject"/>.</typeparam>
         </member>
         <member name="T:SmallBaseDevKit.USH.Unit.ComponentHandler">
             <summary>
@@ -469,19 +506,10 @@
             Активна ли игровая единица.
             </summary>
         </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit``1(``0)">
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.CreateUnit">
             <summary>
-            Создание игрового юнита с входными данными.
+            Создание игрового юнита.
             </summary>
-            <typeparam name="Data">Тип данных для игровго юнита.</typeparam>
-            <param name="unitData"></param>
-        </member>
-        <member name="M:SmallBaseDevKit.USH.Unit.IUnit.ReadUnitData``1">
-            <summary>
-            Получить данные игровой единицы.
-            </summary>
-            <typeparam name="ReadData">Тип данных.</typeparam>
-            <returns></returns>
         </member>
         <member name="M:SmallBaseDevKit.USH.Unit.IUnit.AddUnitState(SmallBaseDevKit.USH.State.IState,SmallBaseDevKit.AddStateType)">
             <summary>
@@ -518,6 +546,23 @@
             <summary>
             Обновить все состояния юнита выполняется в независимости от методов OnUpdate() и OnFixedUpdate().
             </summary>
+        </member>
+        <member name="T:SmallBaseDevKit.USH.Unit.IUnitWithData">
+            <summary>
+            Интрефес для юнитов с данными типа - <see cref="T:UnityEngine.ScriptableObject"/>
+            </summary>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnitWithData.SetUnitData``1(``0)">
+            <summary>
+            Добавить игровой единице данные.
+            </summary>
+            <param name="data">Данные.</param>
+        </member>
+        <member name="M:SmallBaseDevKit.USH.Unit.IUnitWithData.ReadUnitData``1">
+            <summary>
+            Прочитать данные у игровой единицы.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:SmallBaseDevKit.AddStateType">
             <summary>
@@ -557,6 +602,15 @@
             </summary>
             <param name="e">Ошибка.</param>
             <param name="msg">Дополнительное сообщение.</param>
+        </member>
+        <member name="M:UnitExtention.ReadUnitData``1(SmallBaseDevKit.USH.Unit.IUnit,``0@)">
+            <summary>
+            Расширение для IUnit, пробуем прочитать данные игровой единицы.
+            </summary>
+            <typeparam name="T">Тип данных.</typeparam>
+            <param name="unit">Текущий юнит.</param>
+            <param name="data">Данные.</param>
+            <exception cref="T:System.Exception">Если у текущего юнита нет реализации интерфеса IUnitWithData.</exception>
         </member>
         <member name="T:GameUtiles">
             <summary>

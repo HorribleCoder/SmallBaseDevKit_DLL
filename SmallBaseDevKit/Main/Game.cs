@@ -5,6 +5,7 @@ using SmallBaseDevKit.GameModule;
 using SmallBaseDevKit.USH.Unit;
 using SmallBaseDevKit.USH.State;
 using SmallBaseDevKit.Factory;
+using SmallBaseDevKit.GameException;
 
 namespace SmallBaseDevKit
 {
@@ -25,15 +26,46 @@ namespace SmallBaseDevKit
         }
 
         #region Unit
+
+        /// <summary>
+        /// Метод по созданию нового игрового юнита, без натсроек.
+        /// </summary>
+        /// <typeparam name="T">Тип юнита.</typeparam>
+        /// <returns>Реализация юнита.</returns>
+        public static T CreateUnit<T>() where T: IUnit
+        {
+            var unit = GameInstance.Instance.GetGameModule<UnitModule>().GetUnit<T>();
+            unit.CreateUnit();
+            return unit;
+        }
         /// <summary>
         /// Метод по созданию нового игрового юнита с учетом его настроек.
         /// </summary>
         /// <typeparam name="T">Тип юнита.</typeparam>
+        /// <typeparam name="D">Тип данных настроек</typeparam>
         /// <returns>Реализация юнита.</returns>
-        public static T CreateUnit<T>(ScriptableObject unitData) where T: IUnit
+        public static T CreateUnit<T,D>(D unitData) 
+            where T: IUnit
+            where D: ScriptableObject
         {
             var unit = GameInstance.Instance.GetGameModule<UnitModule>().GetUnit<T>();
-            unit.CreateUnit(unitData);
+            try
+            {
+                if(unit is IUnitWithData)
+                {
+                    var convertUnit = (IUnitWithData)unit;
+                    convertUnit.SetUnitData(unitData);
+                    unit.CreateUnit();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch(Exception e)
+            {
+                ExceptionHandler.ExceptionProcessExecute(e, $"Unit - {typeof(T).Name} not release interface IUnitWithData");
+            }
             return unit;
         }
         /// <summary>
@@ -44,6 +76,8 @@ namespace SmallBaseDevKit
         {
             unit.DestroyUnit();
         }
+
+        #region Unit State
         /// <summary>
         /// Метод добавления состояния в игровую единицу.
         /// </summary>
@@ -59,6 +93,58 @@ namespace SmallBaseDevKit
             }
         }
         /// <summary>
+        /// Метод доабвления группы состояний.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="unit"></param>
+        /// <param name="addStateType"></param>
+        public static void AddUnitStateGroup<T1,T2>(IUnit unit, AddStateType addStateType) 
+            where T1 : IState
+            where T2 : IState
+        {
+            AddUnitState<T1>(unit, addStateType);
+            AddUnitState<T2>(unit, addStateType);
+        }
+        /// <summary>
+        /// Метод доабвления группы состояний.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="unit"></param>
+        /// <param name="addStateType"></param>
+        public static void AddUnitStateGroup<T1, T2, T3>(IUnit unit, AddStateType addStateType)
+            where T1 : IState
+            where T2 : IState
+            where T3 : IState
+        {
+            AddUnitState<T1>(unit, addStateType);
+            AddUnitState<T2>(unit, addStateType);
+            AddUnitState<T3>(unit, addStateType);
+        }
+        /// <summary>
+        /// Метод доабвления группы состояний.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <param name="unit"></param>
+        /// <param name="addStateType"></param>
+        public static void AddUnitStateGroup<T1, T2, T3, T4>(IUnit unit, AddStateType addStateType)
+            where T1 : IState
+            where T2 : IState
+            where T3 : IState
+            where T4 : IState
+        {
+            AddUnitState<T1>(unit, addStateType);
+            AddUnitState<T2>(unit, addStateType);
+            AddUnitState<T3>(unit, addStateType);
+            AddUnitState<T4>(unit, addStateType);
+        }
+
+        /// <summary>
         /// Метод удаления из игровой единицы указаногого состояния.
         /// </summary>
         /// <typeparam name="T">Тип состояния.</typeparam>
@@ -67,6 +153,8 @@ namespace SmallBaseDevKit
         {
             unit.RemoveState<T>();
         }
+        #endregion
+
         #endregion
 
         #region Unit Hash Registor

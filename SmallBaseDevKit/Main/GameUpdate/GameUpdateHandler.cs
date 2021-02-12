@@ -62,7 +62,7 @@ namespace SmallBaseDevKit.Main
         private void FixedUpdate()
         {
             var node = _updatableList.First;
-            for(int i = 0; i < _updatableList.Count; ++i)
+            for (int i = 0; i < _updatableList.Count; ++i)
             {
                 node.Value.OnFixedUpdate();
                 node = node.Next;
@@ -84,7 +84,7 @@ namespace SmallBaseDevKit.Main
             while (true)
             {
                 yield return new WaitForEndOfFrame();
-                invokeLateUpdateSubprocessEvent.Invoke();
+                invokeLateUpdateSubprocessEvent?.Invoke();
             }
         }
     }

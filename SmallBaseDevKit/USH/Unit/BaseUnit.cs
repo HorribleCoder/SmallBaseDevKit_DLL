@@ -1,38 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Text;
 
 using SmallBaseDevKit.Main;
 using SmallBaseDevKit.GameModule;
 using SmallBaseDevKit.USH.State;
 
-
 namespace SmallBaseDevKit.USH.Unit
 {
-    /// <summary>
-    /// Базовый класс игровой единицы, которая хранит в себе ряд актуальных состояний (<see cref="BaseUnitState{T}"/>).
-    /// </summary>
-    /// <typeparam name="UnitData">Входные данные настройки юнита, формат - <see cref="ScriptableObject"/>.</typeparam>
-    public abstract class BaseUnit<UnitData> : IUpdtable, IUnit
-        where UnitData: ScriptableObject
+    public abstract class BaseUnit : IUpdtable, IUnit
     {
         /// <summary>
-        /// Слой с Unity компонентами что использует игровая единица. Необхоидмо произвести настройку в потомках BaseUnit. <see cref="ComponentHandler.SetupComponentHandler{T}(T, GameObject)"/>
+        /// Слой с Unity компонентами что использует игровая единица. Необходимо произвести настройку в потомках BaseUnit, через вызов метода - SetupComponentHandler
         /// </summary>
-        protected ComponentHandler componentHandler;
+        protected ComponentHandler ComponentHandler
+        {
+            get
+            {
+                if (_componentHandler is null)
+                {
+                    _componentHandler = new ComponentHandler();
+                }
+                return _componentHandler;
+            }
+        }
+        private ComponentHandler _componentHandler;
         private LinkedList<IState> _unitStateList;
-
-        private UnitData _data;
-
         public bool isActive => _isActive;
         private bool _isActive;
 
+        #region Abstract Methods
+        /// <summary>
+        /// Метод расширенной настройки для потомков.
+        /// </summary>
+        protected abstract void ExtendedSetupUnit();
+        /// <summary>
+        /// Метод расширенного уничтожения для потомков.
+        /// <para>Вызывается до очистки списка состояний и возврата в единицы в пул.</para>
+        /// </summary>
+        protected abstract void ExtendedDestroyUnit();
+        #endregion
+
         protected BaseUnit()
         {
-            componentHandler = new ComponentHandler();
             _unitStateList = new LinkedList<IState>();
         }
 
+        #region IUpdatable Methods
+        void IUpdtable.OnUpdate()
+        {
+            OnUpdate();
+        }
+        void IUpdtable.OnFixedUpdate()
+        {
+            OnFixedUpdate();
+        }
+          
         public virtual void OnFixedUpdate()
         {
             //do something...
@@ -42,32 +65,15 @@ namespace SmallBaseDevKit.USH.Unit
         {
             //do something...
         }
-
-        #region Abstract Methods
-        /// <summary>
-        /// Метод расширенной настройки для потомков.
-        /// <para>Вызывается после получения основных данных игровой единицы в момет создания экземпляра класса.</para>
-        /// </summary>
-        protected abstract void ExtendedSetupUnit(UnitData unitData);
-        /// <summary>
-        /// Метод расширенного уничтожения для потомков.
-        /// <para>Вызывается до очистки списка состояний и возврата в единицы в пул.</para>
-        /// </summary>
-        protected abstract void ExtendedDestroyUnit();
         #endregion
 
-        #region IUnit Method
-        void IUnit.CreateUnit<Data>(Data unitData)
-        {
-            this._data = ConvertInputData(unitData);
-            GameUpdateHandler.Instance.Registration(this);
-            ExtendedSetupUnit(this._data);
-            _isActive = true;
-        }
 
-        ReadData IUnit.ReadUnitData<ReadData>()
+        #region IUnit Method
+        void IUnit.CreateUnit()
         {
-            return _data as ReadData;
+            GameUpdateHandler.Instance.Registration(this);
+            ExtendedSetupUnit();
+            _isActive = true;
         }
 
         void IUnit.AddUnitState(IState state, AddStateType addStateType)
@@ -105,7 +111,7 @@ namespace SmallBaseDevKit.USH.Unit
 
         void IUnit.RemoveState<RemoveState>()
         {
-            if(GameUtiles.TryGetObjectInLinkedList(_unitStateList, typeof(RemoveState), out var findState, EqualState))
+            if (GameUtiles.TryGetObjectInLinkedList(_unitStateList, typeof(RemoveState), out var findState, EqualState))
             {
                 _unitStateList.Remove(findState);
                 findState.StateRemove();
@@ -117,7 +123,7 @@ namespace SmallBaseDevKit.USH.Unit
             GameUpdateHandler.Instance.Unregistration(this);
             ExtendedDestroyUnit();
             var node = _unitStateList.First;
-            for(int i = 0; i < _unitStateList.Count; ++i)
+            for (int i = 0; i < _unitStateList.Count; ++i)
             {
 
                 node.Value.StateRemove();
@@ -137,22 +143,15 @@ namespace SmallBaseDevKit.USH.Unit
 
         bool IUnit.TryGetUnitComponent<C>(out C component)
         {
-            component = componentHandler.GetComponent<C>();
+            component = ComponentHandler.GetComponent<C>();
             return component != default;
         }
-        
+
         #endregion
-
-        protected UnitData ConvertInputData(ScriptableObject unitData)
-        {
-            return (UnitData)unitData;
-        }
-
-
         private bool EqualState(object pivotObject, object equalObject)
         {
             var result = false;
-            if(pivotObject is Type)
+            if (pivotObject is Type)
             {
                 result = (Type)pivotObject == equalObject.GetType();
             }
@@ -161,6 +160,12 @@ namespace SmallBaseDevKit.USH.Unit
                 result = pivotObject.GetType() == equalObject.GetType();
             }
             return result;
+        }
+
+        public void DebugViewUnit()
+        {
+            _Debug.Log(this.GetType(), DebugColor.blue);
+            ComponentHandler.DebugView();
         }
     }
 }

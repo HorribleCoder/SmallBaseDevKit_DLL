@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using SmallBaseDevKit.GameModule;
-
 namespace SmallBaseDevKit.USH.Unit
 {
     /// <summary>
@@ -76,7 +74,6 @@ namespace SmallBaseDevKit.USH.Unit
                         {
                             _componentList.Add(targetComponentList[i]);
                             r_list.Remove(targetComponentList[i].GetType());
-                            
                         }
                         if(r_list.Count <= 0)
                         {

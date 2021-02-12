@@ -9,5 +9,10 @@ namespace SmallBaseDevKit.USH.Handler
             _Debug.Log("Null or error handler!", DebugColor.red);
             _Debug.Log($"<size=12>Invoke state - {currentState.GetType().Name}</size>", DebugColor.red);
         }
+
+        protected override void SetupHandlerOnCreate()
+        {
+            _Debug.Log("NullOrErrorHandler is create!");
+        }
     }
 }

@@ -7,17 +7,11 @@ namespace SmallBaseDevKit.USH.Handler
     /// </summary>
     public abstract class BaseGameHandler : IHandler
     {
-        public abstract void ExecuteHandlerLogic(IState currentState);
-
-        /// <summary>
-        /// Метод конвертации входящего состояния в рабочее.
-        /// </summary>
-        /// <typeparam name="T">Тип состояния с которым будет работать логика.</typeparam>
-        /// <param name="currenState">Входящее состояние.</param>
-        /// <returns>Актуальное состояние.</returns>
-        protected T ConvertStateToType<T>(IState currenState) where T: IState
+        protected BaseGameHandler()
         {
-            return (T)currenState;
+            SetupHandlerOnCreate();
         }
+        public abstract void ExecuteHandlerLogic(IState currentState);
+        protected abstract void SetupHandlerOnCreate();
     }
 }
