@@ -231,7 +231,7 @@
             </summary>
             <param name="obj"></param>
         </member>
-        <member name="T:SmallBaseDevKit.IUpdtable">
+        <member name="T:SmallBaseDevKit.IUpdatable">
             <summary>
             Интерфейс для runtime-обновляемых объектов в игре. Обновление через единный помощник - GameUpdateHandler.
             </summary>
