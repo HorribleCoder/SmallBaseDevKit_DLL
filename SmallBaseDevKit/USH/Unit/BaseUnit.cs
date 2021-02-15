@@ -8,7 +8,7 @@ using SmallBaseDevKit.USH.State;
 
 namespace SmallBaseDevKit.USH.Unit
 {
-    public abstract class BaseUnit : IUpdtable, IUnit
+    public abstract class BaseUnit : IUpdatable, IUnit
     {
         /// <summary>
         /// Слой с Unity компонентами что использует игровая единица. Необходимо произвести настройку в потомках BaseUnit, через вызов метода - SetupComponentHandler
@@ -47,11 +47,11 @@ namespace SmallBaseDevKit.USH.Unit
         }
 
         #region IUpdatable Methods
-        void IUpdtable.OnUpdate()
+        void IUpdatable.OnUpdate()
         {
             OnUpdate();
         }
-        void IUpdtable.OnFixedUpdate()
+        void IUpdatable.OnFixedUpdate()
         {
             OnFixedUpdate();
         }
