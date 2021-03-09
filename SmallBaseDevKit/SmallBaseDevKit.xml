@@ -30,6 +30,13 @@
             <param name="prototype">Прототип.</param>
             <returns></returns>
         </member>
+        <member name="M:SmallBaseDevKit.Game.GetGameModule``1">
+            <summary>
+            Получить игровой модууль, наследник <see cref="T:SmallBaseDevKit.GameModule.BaseGameModule"/>. Существует в единичном экзепляре.
+            </summary>
+            <typeparam name="T">Тип модуля.</typeparam>
+            <returns>реализация модуля.</returns>
+        </member>
         <member name="M:SmallBaseDevKit.Game.CreateUnit``1">
             <summary>
             Метод по созданию нового игрового юнита, без натсроек.

@@ -8,7 +8,7 @@ namespace SmallBaseDevKit
     /// <summary>
     /// Класс-инициализатор в котором хранятся все необходимые игровые модули.
     /// </summary>
-    public sealed class GameInstance : MonoSingleton<GameInstance>
+    internal sealed class GameInstance : MonoSingleton<GameInstance>
     {
         private IPool<BaseGameModule> _modulePool;
 
@@ -22,7 +22,7 @@ namespace SmallBaseDevKit
         /// </summary>
         /// <typeparam name="T">Тип моудля.</typeparam>
         /// <returns>Объект модуля.</returns>
-        public T GetGameModule<T>() where T : BaseGameModule
+        internal T GetGameModule<T>() where T : BaseGameModule
         {
             if(_modulePool is null)
             {

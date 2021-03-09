@@ -14,6 +14,7 @@ namespace SmallBaseDevKit
     /// </summary>
     public static class Game
     {
+        #region Main
         /// <summary>
         /// Создать экземпляр объекта ссылаясь на прототип.
         /// </summary>
@@ -24,6 +25,17 @@ namespace SmallBaseDevKit
         {
             return (T)GameFactory.Instance.CreateNewObject<T>(prototype);
         }
+        /// <summary>
+        /// Получить игровой модууль, наследник <see cref="BaseGameModule"/>. Существует в единичном экзепляре.
+        /// </summary>
+        /// <typeparam name="T">Тип модуля.</typeparam>
+        /// <returns>реализация модуля.</returns>
+        public static T GetGameModule<T>()where T: BaseGameModule
+        {
+            return GameInstance.Instance.GetGameModule<T>();
+        }
+
+        #endregion
 
         #region Unit
 
