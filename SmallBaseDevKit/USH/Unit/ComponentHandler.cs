@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SmallBaseDevKit.GameModule;
+
 namespace SmallBaseDevKit.USH.Unit
 {
     /// <summary>
@@ -11,6 +13,8 @@ namespace SmallBaseDevKit.USH.Unit
     /// </summary>
     public sealed class ComponentHandler
     {
+        public GameObject UnitVisual { get => _unitVisual; }
+        private GameObject _unitVisual;
         private List<Component> _componentList;
 
         internal ComponentHandler()
@@ -66,6 +70,7 @@ namespace SmallBaseDevKit.USH.Unit
                     throw new Exception();
                 }
                 var targetComponentList = targetObject.GetComponentsInChildren<Component>();
+                _unitVisual = targetObject;
                 if (TryGetRequireComponent(out var r_list))
                 {
                     for(int i = 0; i < targetComponentList.Length; ++i)
@@ -108,6 +113,7 @@ namespace SmallBaseDevKit.USH.Unit
         public void ResetComponentHandler()
         {
             _componentList.Clear();
+            _unitVisual = null;
         }
         //TODD Remove this!
         //test

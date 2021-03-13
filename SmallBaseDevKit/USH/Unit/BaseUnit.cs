@@ -5,10 +5,11 @@ using System.Text;
 using SmallBaseDevKit.Main;
 using SmallBaseDevKit.GameModule;
 using SmallBaseDevKit.USH.State;
+using UnityEngine;
 
 namespace SmallBaseDevKit.USH.Unit
 {
-    public abstract class BaseUnit : IUpdatable, IUnit
+    public abstract class BaseUnit : IUpdatable, IUnit, IUnitVisual
     {
         /// <summary>
         /// Слой с Unity компонентами что использует игровая единица. Необходимо произвести настройку в потомках BaseUnit, через вызов метода - SetupComponentHandler
@@ -27,6 +28,7 @@ namespace SmallBaseDevKit.USH.Unit
         private ComponentHandler _componentHandler;
         private LinkedList<IState> _unitStateList;
         public bool isActive => _isActive;
+
         private bool _isActive;
 
         #region Abstract Methods
@@ -162,6 +164,24 @@ namespace SmallBaseDevKit.USH.Unit
             return result;
         }
 
+        void IUnitVisual.AddUnitVisual(GameObject visualPrototype)
+        {
+            if(ComponentHandler.UnitVisual != null)
+            {
+                this.RemoveUnitVisual();
+            }
+            var unitVisual = Game.GetGameModule<UnitVisualModule>().GetUnitVisualByPrototype(visualPrototype);
+            ComponentHandler.SetupComponentHandler(this, unitVisual);
+        }
+
+        void IUnitVisual.RemoveUnitVisual()
+        {
+            if(ComponentHandler.UnitVisual != null)
+            {
+                Game.GetGameModule<UnitVisualModule>().ReturnUnitVisual(ComponentHandler.UnitVisual);
+            }
+            ComponentHandler.ResetComponentHandler();
+        }
         public void DebugViewUnit()
         {
             _Debug.Log(this.GetType(), DebugColor.blue);

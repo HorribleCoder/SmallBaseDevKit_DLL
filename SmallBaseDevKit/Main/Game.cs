@@ -29,7 +29,7 @@ namespace SmallBaseDevKit
         /// Получить игровой модууль, наследник <see cref="BaseGameModule"/>. Существует в единичном экзепляре.
         /// </summary>
         /// <typeparam name="T">Тип модуля.</typeparam>
-        /// <returns>реализация модуля.</returns>
+        /// <returns>ссылка на реализацию модуля.</returns>
         public static T GetGameModule<T>()where T: BaseGameModule
         {
             return GameInstance.Instance.GetGameModule<T>();

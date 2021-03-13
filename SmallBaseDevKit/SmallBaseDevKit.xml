@@ -35,7 +35,7 @@
             Получить игровой модууль, наследник <see cref="T:SmallBaseDevKit.GameModule.BaseGameModule"/>. Существует в единичном экзепляре.
             </summary>
             <typeparam name="T">Тип модуля.</typeparam>
-            <returns>реализация модуля.</returns>
+            <returns>ссылка на реализацию модуля.</returns>
         </member>
         <member name="M:SmallBaseDevKit.Game.CreateUnit``1">
             <summary>
@@ -618,6 +618,19 @@
             <param name="unit">Текущий юнит.</param>
             <param name="data">Данные.</param>
             <exception cref="T:System.Exception">Если у текущего юнита нет реализации интерфеса IUnitWithData.</exception>
+        </member>
+        <member name="M:UnitExtention.AddUnitVisual(SmallBaseDevKit.USH.Unit.IUnitVisual,UnityEngine.GameObject)">
+            <summary>
+            Добавить визульную реализацию юнита.
+            </summary>
+            <param name="unit">Юнит.</param>
+            <param name="visualPrototype">Прототип визуала юнита.</param>
+        </member>
+        <member name="M:UnitExtention.RemoveUnitVisual(SmallBaseDevKit.USH.Unit.IUnitVisual)">
+            <summary>
+            Сбросить настройку визуальной реализации юнита.
+            </summary>
+            <param name="unit">Юнит.</param>
         </member>
         <member name="T:GameUtiles">
             <summary>

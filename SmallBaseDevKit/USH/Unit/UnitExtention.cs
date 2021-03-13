@@ -33,4 +33,21 @@ public static class UnitExtention
             ExceptionHandler.ExceptionProcessExecute(e, $"Unit - {unit.GetType().Name} don't release interface IUnitWithData!");
         }
     }
+    /// <summary>
+    /// Добавить визульную реализацию юнита.
+    /// </summary>
+    /// <param name="unit">Юнит.</param>
+    /// <param name="visualPrototype">Прототип визуала юнита.</param>
+    public static void AddUnitVisual(this IUnitVisual unit, GameObject visualPrototype)
+    {
+        unit.AddUnitVisual(visualPrototype);
+    }
+    /// <summary>
+    /// Сбросить настройку визуальной реализации юнита.
+    /// </summary>
+    /// <param name="unit">Юнит.</param>
+    public static void RemoveUnitVisual(this IUnitVisual unit)
+    {
+        unit.RemoveUnitVisual();
+    }
 }
