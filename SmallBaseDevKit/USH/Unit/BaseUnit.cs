@@ -96,7 +96,6 @@ namespace SmallBaseDevKit.USH.Unit
             for (int i = 0; i < _unitStateList.Count; ++i)
             {
                 node.Value.Execute();
-
                 if (node.Value.CheckCompliteState())
                 {
                     var nextNode = node.Next;
@@ -155,7 +154,8 @@ namespace SmallBaseDevKit.USH.Unit
             var result = false;
             if (pivotObject is Type)
             {
-                result = (Type)pivotObject == equalObject.GetType();
+                var pivotType = pivotObject as Type;
+                result = pivotType == equalObject.GetType() || equalObject.GetType().IsSubclassOf(pivotType);
             }
             else
             {
