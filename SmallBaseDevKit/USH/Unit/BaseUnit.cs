@@ -51,6 +51,7 @@ namespace SmallBaseDevKit.USH.Unit
         #region IUpdatable Methods
         void IUpdatable.OnUpdate()
         {
+
             OnUpdate();
         }
         void IUpdatable.OnFixedUpdate()
@@ -99,8 +100,8 @@ namespace SmallBaseDevKit.USH.Unit
                 if (node.Value.CheckCompliteState())
                 {
                     var nextNode = node.Next;
+                    _unitStateList.Remove(node.Value);
                     node.Value.StateRemove();
-                    _unitStateList.Remove(node);
                     node = nextNode;
                 }
                 else
@@ -126,7 +127,6 @@ namespace SmallBaseDevKit.USH.Unit
             var node = _unitStateList.First;
             for (int i = 0; i < _unitStateList.Count; ++i)
             {
-
                 node.Value.StateRemove();
                 node = node.Next;
             }
