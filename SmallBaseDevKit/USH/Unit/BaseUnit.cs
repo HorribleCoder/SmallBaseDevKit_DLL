@@ -81,6 +81,11 @@ namespace SmallBaseDevKit.USH.Unit
 
         void IUnit.AddUnitState(IState state, AddStateType addStateType)
         {
+            if (!_isActive)
+            {
+                state.StateRemove();
+                return;
+            }
             state.SetupState(this);
             if (addStateType == AddStateType.AddFirst)
             {
